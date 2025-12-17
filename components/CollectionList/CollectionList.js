@@ -1,4 +1,3 @@
-import Collection from "@/db/models/Collection";
 import CollectionCard from "./CollectionCard";
 
 export default function CollectionList({collections}){

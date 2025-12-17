@@ -1,11 +1,12 @@
-import CollectionList from "@/CollectionList/CollectionList";
+
+import CollectionList from "@/components/CollectionList/CollectionList";
 import useSWR from "swr";
 
-const { data: collections, isLoading, error } = useSWR("/api/collections");
-  const [search, setSearch] = useState("");
-
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function HomePage() {
+
+const { data: collections, isLoading, error } = useSWR("/api/collections", fetcher);
 
 if (isLoading) return <p>Loading activities…</p>;
   if (error) return <p>Error loading activities.</p>;
