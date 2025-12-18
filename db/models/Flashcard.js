@@ -3,7 +3,9 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const flashcardSchema = new Schema({
-  name: { type: String },
+  collectionId: { type: Schema.Types.ObjectId, ref: "Collection", required: true },
+  question: { type: String, required: true },
+  answer: { type: String, required: true },
 });
 
 const Flashcard =
