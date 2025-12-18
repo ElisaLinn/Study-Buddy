@@ -1,7 +1,7 @@
 import { House } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { NavigationWrapper, NavigationList, NavigationListItem } from "./StyledNavigation";
+import { NavigationWrapper, NavigationList, NavigationListItem, NavigationLink } from "./StyledNavigation";
 
 export default function Navigation() {
   const router = useRouter();
@@ -10,14 +10,14 @@ export default function Navigation() {
     <NavigationWrapper>
         <NavigationList>
             <NavigationListItem>
-                <Link href="/" className={router.pathname === "/" ? "highlighted" : ""}>
+                <NavigationLink href="/" className={router.pathname === "/" ? "highlighted" : ""}>
                     <House/>
-                </Link>
+                </NavigationLink>
             </NavigationListItem>
             <NavigationListItem>
-                <Link href="/" className={router.pathname === "/" ? "highlighted" : ""}>
+                <NavigationLink href="/" className={router.pathname === "/" ? "highlighted" : ""}>
                     <House/>
-                </Link>
+                </NavigationLink>
             </NavigationListItem>
         </NavigationList>
     </NavigationWrapper>
