@@ -5,15 +5,15 @@ import { CollectionPageWrapper } from "./StyledCollection";
 import CollectionForm from "./CollectionForm/CollectionForm";
 
 
-export default function CollectionList({collections}){
+export default function CollectionList({collections, onAddCollection}){
      const [isEditing, setIsEditing] = useState(false);
 
-  function handleEditing() {                   // ändert state von false zu true => Ansicht wird zu Editing gewechselt
+  function handleEditing() {                   
     setIsEditing(true);
   }
 
-  function handleEditSubmit(editedData) {                               //Veränderung wird gespeichert editedData sind die data aus ColorForm
-    onEditCollection(collection._id, editedData);                                 // ruft on EditColor aus App auf, übergibt color.id und die neuen Daten
+  function handleSubmit(newCollectionData) {                               
+    onAddCollection(newCollectionData);                                 
     setIsEditing(false);                                               
   }
 
@@ -24,11 +24,9 @@ export default function CollectionList({collections}){
   if (isEditing) {
     return (
      <div>
-      
         <CollectionForm
-          onSubmitColor={handleEditSubmit}
-          initialData={collectionData}
-          buttonText="Save Changes"
+          onSubmit={handleSubmit}
+          buttonText="Create Collection"
         />
         <button onClick={handleCancel}>Cancel</button>
       </div>
@@ -36,7 +34,7 @@ export default function CollectionList({collections}){
   }
     return(
         <CollectionPageWrapper>
-        <AddElement/>
+        <AddElement onClick={handleEditing}/>
             {collections.map((collection) => (
                 <li key={collection._id}>
                     <CollectionCard 
@@ -45,7 +43,7 @@ export default function CollectionList({collections}){
                     />    
                 </li>
             ))}
-            <AddElement onEditCollection={handleEditing}/>
+            <AddElement onClick={handleEditing}/>
         </CollectionPageWrapper>
     )
 }

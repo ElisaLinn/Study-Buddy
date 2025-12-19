@@ -1,46 +1,52 @@
+import useSWR from "swr";
 import CollectionCard from "../CollectionCard";
+import { useState } from "react";
 
-export default function CollectionForm (){
-    const { mutate } = useSWR("/api/collections");
-      const { data: categories } = useSWR("/api/flashcards");
+export default function CollectionForm ({ onSubmit, buttonText = "Submit" }){
       const [submitError, setSubmitError] = useState("");
       const [successMessage, setSuccessMessage] = useState("");
-         const [isEditing, setIsEditing] = useState(false);
 
     async function handleSubmit(event) {
     event.preventDefault();
 
-     setSubmitError("");
+    setSubmitError("");
     setSuccessMessage("");
 
     const formData = new FormData(event.target);
     const collectionData = Object.fromEntries(formData);
 
-    const response = await fetch("/api/collections", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(collectionData),
-    });
+    // Rename the field to match the schema
+    const cleanedData = {
+      title: collectionData.CollectionTitle
+    };
 
-    if (!response.ok) {
+    try {
+      if (onSubmit) {
+        // Use the prop function if provided
+        await onSubmit(cleanedData);
+        setSuccessMessage("A new collection has been created!");
+        event.target.reset();
+      }
+    } catch (error) {
+      console.error("Error creating collection:", error);
       setSubmitError("Failed to create a new collection.");
-      return;
     }
-    //activity to go on top and successmessage
-    setSuccessMessage("A new collection has been created!");
-    mutate();
-    event.target.reset();
-    setSelectedFile(null);
-    setFormKey((prev) => prev + 1);
   }
     return(
         <>
+      {submitError && <p style={{color: 'red'}}>{submitError}</p>}
+      {successMessage && <p style={{color: 'green'}}>{successMessage}</p>}
+      
       <form onSubmit={handleSubmit}>
-        <label htmlFor="Collection Title">Collection Title</label>
-        <input type="text" id="CollectionTitle" name="CollectionTitle" placeholder="Add your collection" required/>
-  <button type="submit" >submit</button>
+        <label htmlFor="CollectionTitle">Collection Title</label>
+        <input 
+          type="text" 
+          id="CollectionTitle" 
+          name="CollectionTitle" 
+          placeholder="Add your collection" 
+          required
+        />
+        <button type="submit">{buttonText}</button>
       </form>
         </>
     )
