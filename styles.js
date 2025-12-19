@@ -28,7 +28,15 @@ export default createGlobalStyle`
   --alert: #9A3305;
   --alert-foreground: #C74004;
 }
+ svg {
+    width: 32px;
+    height: 32px;
+    overflow: visible;
+    display: block;
+  }
 
+ 
+    
  /* .dark {
 --radius: 0.5rem;   
    --background:           #181910;  
@@ -58,6 +66,7 @@ export default createGlobalStyle`
 
 body {
   margin: 0;
+  margin-bottom: 7rem;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-family: system-ui;
   background: var(--background);

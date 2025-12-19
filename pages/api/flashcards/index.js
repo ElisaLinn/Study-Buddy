@@ -11,11 +11,30 @@ export default async function handler(request, response) {
   }
 
   if (request.method === "POST") {
-    const productData = request.body;
-    await Flashcard.create(productData);
+    try {
+      const flashcardData = request.body;
 
-    response.status(201).json({ status: "Product created." });
-    return;
+      // Validate required fields
+      if (
+        !flashcardData.question ||
+        !flashcardData.answer ||
+        !flashcardData.collectionId
+      ) {
+        response
+          .status(400)
+          .json({ status: "Question, answer, and collectionId are required" });
+        return;
+      }
+
+      const newFlashcard = await Flashcard.create(flashcardData);
+      response.status(201).json(newFlashcard);
+      return;
+    } catch (error) {
+      response
+        .status(500)
+        .json({ status: "Error creating flashcard", error: error.message });
+      return;
+    }
   }
 
   response.status(405).json({ status: "Method not allowed." });

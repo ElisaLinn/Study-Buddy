@@ -8,10 +8,12 @@ export default function CollectionDetailsPage() {
   const router = useRouter();
   const { id } = router.query;
 
-  const { data: collection, isLoading, error } = useSWR(
-    id ? `/api/collections/${id}` : null,
-    fetcher
-  );
+  const {
+    data: collection,
+    isLoading,
+    error,
+    mutate,
+  } = useSWR(id ? `/api/collections/${id}` : null, fetcher);
 
   if (!router.isReady) {
     return <h1>Loading...</h1>;
@@ -35,7 +37,6 @@ export default function CollectionDetailsPage() {
     );
   }
 
-
   async function handleDelete() {
     const response = await fetch(`/api/collections/${id}`, {
       method: "DELETE",
@@ -48,9 +49,37 @@ export default function CollectionDetailsPage() {
     }
   }
 
+  async function handleAddFlashcard(flashcardData) {
+    try {
+      const response = await fetch("/api/flashcards", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...flashcardData,
+          collectionId: id,
+        }),
+      });
+
+      if (response.ok) {
+        mutate();
+        return;
+      } else {
+        throw new Error("Failed to create flashcard");
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
   return (
     <>
-      <CollectionDetails collection={collection} onDelete={handleDelete} />
+      <CollectionDetails
+        collection={collection}
+        onDelete={handleDelete}
+        onAddFlashcard={handleAddFlashcard}
+      />
     </>
   );
 }

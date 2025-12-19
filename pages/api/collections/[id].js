@@ -30,9 +30,42 @@ export default async function handler(request, response) {
       console.error("Database error:", error);
       response
         .status(500)
-        .json({ status: "Database error", error: error.message });
+        .json({ status: "Database error", error: error.meslösage });
       return;
     }
   }
+  if (request.method === "POST") {
+    try {
+      const flashcardData = request.body;
+
+      if (!flashcardData.question) {
+        response.status(400).json({ status: "Title is required" });
+        return;
+      }
+
+      if (!flashcardData.answer) {
+        response.status(400).json({ status: "Title is required" });
+        return;
+      }
+
+      const newFlashcard = await Flashcard.create(flashcardData);
+      response.status(201).json(newFlashcard);
+      return;
+    } catch (error) {
+      response
+        .status(400)
+        .json({ status: "Error creating flashcard", error: error.message });
+      return;
+    }
+  }
+
+  if (request.method === "PUT") {
+    const { id } = request.query;
+
+    await Flashcard.findByIdAndUpdate(id, title);
+    response.status(200).json({ status: "OK!" });
+    return;
+  }
+
   response.status(405).json({ message: "Method not allowed" });
 }

@@ -1,8 +1,10 @@
-export default function FlashcardForm ({ onSubmit, buttonText = "Submit" }){
-      const [submitError, setSubmitError] = useState("");
-      const [successMessage, setSuccessMessage] = useState("");
+import { useState } from "react";
 
-    async function handleSubmit(event) {
+export default function FlashcardForm({ onSubmit, buttonText = "Submit" }) {
+  const [submitError, setSubmitError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  async function handleSubmit(event) {
     event.preventDefault();
 
     setSubmitError("");
@@ -12,45 +14,45 @@ export default function FlashcardForm ({ onSubmit, buttonText = "Submit" }){
     const flashcardData = Object.fromEntries(formData);
 
     const cleanedData = {
-      title: flashcardData.FlashcardTitle
+      question: flashcardData.question,
+      answer: flashcardData.answer,
     };
 
     try {
       if (onSubmit) {
-      
         await onSubmit(cleanedData);
-        setSuccessMessage("A new collection has been created!");
+        setSuccessMessage("A new flashcard has been created!");
         event.target.reset();
       }
     } catch (error) {
       console.error("Error creating collection:", error);
-      setSubmitError("Failed to create a new collection.");
+      setSubmitError("Failed to create a new flashcard.");
     }
   }
-    return(
-        <>
-      {submitError && <p style={{color: 'red'}}>{submitError}</p>}
-      {successMessage && <p style={{color: 'green'}}>{successMessage}</p>}
-      
+  return (
+    <>
+      {submitError && <p style={{ color: "red" }}>{submitError}</p>}
+      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+
       <form onSubmit={handleSubmit}>
-        <label htmlFor="question">Collection Title</label>
-        <input 
-          type="text" 
-          id="question" 
-          name="question" 
-          placeholder="Type in your question" 
+        <label htmlFor="question">Question</label>
+        <input
+          type="text"
+          id="question"
+          name="question"
+          placeholder="Type in your question"
           required
         />
-         <label htmlFor="answer">Collection Title</label>
-        <input 
-          type="text" 
-          id="answer" 
-          name="answer" 
-          placeholder="Type in your answer" 
+        <label htmlFor="answer">Answer</label>
+        <input
+          type="text"
+          id="answer"
+          name="answer"
+          placeholder="Type in your answer"
           required
         />
         <button type="submit">{buttonText}</button>
       </form>
-        </>
-    )
+    </>
+  );
 }
