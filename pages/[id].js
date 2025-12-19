@@ -38,12 +38,12 @@ export default function CollectionDetailsPage() {
   }
 
   async function handleDelete() {
-    const response = await fetch(`/api/collections/${id}`, {
+    const response = await fetch(`/api/flashcards/${id}`, {
       method: "DELETE",
     });
 
     if (response.ok) {
-      router.push("/");
+      return;
     } else {
       return alert("Please try again");
     }
@@ -73,12 +73,29 @@ export default function CollectionDetailsPage() {
     }
   }
 
+  async function handleDeleteFlashcard(flashcardId) {
+    try {
+      const response = await fetch(`/api/flashcards/${flashcardId}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        mutate(); // Refresh the collection data
+      } else {
+        alert("Error deleting flashcard");
+      }
+    } catch (error) {
+      alert("Error deleting flashcard");
+    }
+  }
+
   return (
     <>
       <CollectionDetails
         collection={collection}
         onDelete={handleDelete}
         onAddFlashcard={handleAddFlashcard}
+        onDeleteFlashcard={handleDeleteFlashcard}
       />
     </>
   );
