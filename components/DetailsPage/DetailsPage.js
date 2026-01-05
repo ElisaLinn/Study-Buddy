@@ -2,8 +2,8 @@ import { useState } from "react";
 import AddElement from "../AddElement.js/AddElement";
 import BackButton from "./BackButton/BackButton";
 import FlashcardForm from "./FlashcardForm";
+import FlippableFlashcard from "./FlipFunction/FlippableFlashcard";
 import { DetailsPageWrapper, FlashcardWrapper } from "./StyledDetailsPage";
-import DeleteButton from "../DeleteButton/DeleteButton";
 
 export default function CollectionDetails({
   collection,
@@ -50,13 +50,11 @@ export default function CollectionDetails({
         <div>
           <h2>Flashcards:</h2>
           {collection.flashcards.map((flashcard) => (
-            <FlashcardWrapper key={flashcard._id}>
-              <h3>Question:</h3>
-              <p>{flashcard.question}</p>
-              <h3>Answer:</h3>
-              <p>{flashcard.answer}</p>
-              <DeleteButton id={flashcard._id} onDelete={onDeleteFlashcard}/>
-            </FlashcardWrapper>
+            <FlippableFlashcard
+              key={flashcard._id}
+              flashcard={flashcard}
+              onDelete={onDeleteFlashcard}
+            />
           ))}
         </div>
       )}
