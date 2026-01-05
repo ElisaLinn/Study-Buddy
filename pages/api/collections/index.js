@@ -1,13 +1,34 @@
 import dbConnect from "@/db/connect";
 import Collection from "@/db/models/Collection";
+import Flashcard from "@/db/models/Flashcard";
 
 export default async function handler(request, response) {
   await dbConnect();
 
   if (request.method === "GET") {
-    const collections = await Collection.find();
-    response.status(200).json(collections);
-    return;
+    try {
+      const collections = await Collection.find();
+      
+      // Für jede Collection die Anzahl der Flashcards ermitteln
+      const collectionsWithCount = await Promise.all(
+        collections.map(async (collection) => {
+          const flashcardCount = await Flashcard.countDocuments({
+            collectionId: collection._id
+          });
+          
+          return {
+            ...collection.toObject(),
+            flashcardCount: flashcardCount
+          };
+        })
+      );
+      
+      response.status(200).json(collectionsWithCount);
+      return;
+    } catch (error) {
+      response.status(500).json({ status: "Error loading collections" });
+      return;
+    }
   }
 
   if (request.method === "POST") {
