@@ -89,6 +89,26 @@ export default function CollectionDetailsPage() {
     }
   }
 
+  async function handleMarkCorrect(flashcardId, isCorrect) {
+    try {
+      const response = await fetch(`/api/flashcards/${flashcardId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ isCorrect }),
+      });
+
+      if (response.ok) {
+        mutate(); // Refresh the collection data
+      } else {
+        alert("Error updating flashcard");
+      }
+    } catch (error) {
+      alert("Error updating flashcard");
+    }
+  }
+
   return (
     <>
       <CollectionDetails
@@ -96,6 +116,7 @@ export default function CollectionDetailsPage() {
         onDelete={handleDelete}
         onAddFlashcard={handleAddFlashcard}
         onDeleteFlashcard={handleDeleteFlashcard}
+        onMarkCorrect={handleMarkCorrect}
       />
     </>
   );

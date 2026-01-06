@@ -18,6 +18,24 @@ export default async function handler(request, response) {
     } catch (error) {
       response.status(400).json({ message: "Error deleting flashcard" });
     }
+  } else if (request.method === "PATCH") {
+    try {
+      const { isCorrect } = request.body;
+      
+      const updatedFlashcard = await Flashcard.findByIdAndUpdate(
+        id, 
+        { isCorrect: isCorrect },
+        { new: true }
+      );
+      
+      if (!updatedFlashcard) {
+        return response.status(404).json({ message: "Flashcard not found" });
+      }
+      
+      response.status(200).json(updatedFlashcard);
+    } catch (error) {
+      response.status(400).json({ message: "Error updating flashcard" });
+    }
   } else {
     response.status(405).json({ message: "Method not allowed" });
   }

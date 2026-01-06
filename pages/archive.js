@@ -3,13 +3,17 @@ import FlippableFlashcard from "@/components/DetailsPage/FlipFunction/FlippableF
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-export default function FlashcardsPage() {
+export default function ArchivePage() {
   const {
-    data: flashcards,
+    data: allFlashcards,
     isLoading,
     error,
     mutate,
   } = useSWR("/api/flashcards", fetcher);
+
+  // Filter nur die korrekten (archivierten) Flashcards
+  const archivedFlashcards =
+    allFlashcards?.filter((flashcard) => flashcard.isCorrect) || [];
 
   async function handleMarkCorrect(flashcardId, isCorrect) {
     try {
@@ -48,47 +52,33 @@ export default function FlashcardsPage() {
   }
 
   if (isLoading) {
-    return <h1>Loading flashcards...</h1>;
+    return <h1>Loading archive...</h1>;
   }
 
   if (error) {
-    return <h1>Error loading flashcards</h1>;
-  }
-
-  if (!flashcards || flashcards.length === 0) {
-    return (
-      <div>
-        <h1>Alle Flashcards</h1>
-        <p>Keine Flashcards gefunden.</p>
-      </div>
-    );
-  }
-
-  // Filter nur die Flashcards, die NICHT als korrekt markiert sind
-  const activeFlashcards = flashcards.filter(flashcard => !flashcard.isCorrect);
-
-  if (activeFlashcards.length === 0) {
-    return (
-      <div style={{ padding: '20px' }}>
-        <h1>Alle Flashcards</h1>
-        <p>Alle Flashcards sind archiviert! Schaue im Archiv nach.</p>
-      </div>
-    );
+    return <h1>Error loading archive</h1>;
   }
 
   return (
-    <div>
-      <h1>Alle Flashcards ({activeFlashcards.length})</h1>
-      <div>
-        {activeFlashcards.map((flashcard) => (
-          <FlippableFlashcard 
-            key={flashcard._id}
-            flashcard={flashcard}
-            onDelete={handleDeleteFlashcard}
-            onMarkCorrect={handleMarkCorrect}
-          />
-        ))}
-      </div>
+    <div style={{ padding: "20px" }}>
+      <h1>Archiv - Korrekte Flashcards ({archivedFlashcards.length})</h1>
+      {archivedFlashcards.length === 0 ? (
+        <p>
+          Keine archivierten Flashcards gefunden. Markiere Flashcards als
+          korrekt, um sie hier zu sehen.
+        </p>
+      ) : (
+        <div>
+          {archivedFlashcards.map((flashcard) => (
+            <FlippableFlashcard
+              key={flashcard._id}
+              flashcard={flashcard}
+              onDelete={handleDeleteFlashcard}
+              onMarkCorrect={handleMarkCorrect}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
