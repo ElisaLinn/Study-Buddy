@@ -14,7 +14,7 @@ export default function Navigation() {
                 </NavigationLink>
             </NavigationListItem>
             <NavigationListItem>
-                <NavigationLink href="/" className={router.pathname === "/" ? "highlighted" : ""}>
+                <NavigationLink href="archive" className={router.pathname === "/" ? "highlighted" : ""}>
                     <Archive/>
                 </NavigationLink>
             </NavigationListItem>
