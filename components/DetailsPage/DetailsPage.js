@@ -10,6 +10,7 @@ export default function CollectionDetails({
   onDelete,
   onAddFlashcard,
   onDeleteFlashcard,
+  onMarkCorrect,
 }) {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -54,6 +55,7 @@ export default function CollectionDetails({
               key={flashcard._id}
               flashcard={flashcard}
               onDelete={onDeleteFlashcard}
+              onMarkCorrect={onMarkCorrect}
             />
           ))}
         </div>
