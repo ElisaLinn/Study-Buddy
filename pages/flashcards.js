@@ -58,8 +58,8 @@ export default function FlashcardsPage() {
   if (!flashcards || flashcards.length === 0) {
     return (
       <div>
-        <h1>Alle Flashcards</h1>
-        <p>Keine Flashcards gefunden.</p>
+        <h1>All Flashcards</h1>
+        <p>No Flashcard found.</p>
       </div>
     );
   }
@@ -70,8 +70,8 @@ export default function FlashcardsPage() {
   if (activeFlashcards.length === 0) {
     return (
       <div style={{ padding: '20px' }}>
-        <h1>Alle Flashcards</h1>
-        <p>Alle Flashcards sind archiviert! Schaue im Archiv nach.</p>
+        <h1>All Flashcards</h1>
+        <p>All Flashcard are achivaded! Look at archive.</p>
       </div>
     );
   }

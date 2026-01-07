@@ -61,11 +61,11 @@ export default function ArchivePage() {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h1>Archiv - Korrekte Flashcards ({archivedFlashcards.length})</h1>
+      <h1>Archiv correct Flashcards ({archivedFlashcards.length})</h1>
       {archivedFlashcards.length === 0 ? (
         <p>
-          Keine archivierten Flashcards gefunden. Markiere Flashcards als
-          korrekt, um sie hier zu sehen.
+         No Flascards here yet. Mark Flashcards as
+          correct to see them here.
         </p>
       ) : (
         <div>
