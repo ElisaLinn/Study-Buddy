@@ -64,8 +64,7 @@ export default function ArchivePage() {
       <h1>Archiv correct Flashcards ({archivedFlashcards.length})</h1>
       {archivedFlashcards.length === 0 ? (
         <p>
-         No Flascards here yet. Mark Flashcards as
-          correct to see them here.
+          No Flascards here yet. Mark Flashcards as correct to see them here.
         </p>
       ) : (
         <div>
@@ -75,6 +74,7 @@ export default function ArchivePage() {
               flashcard={flashcard}
               onDelete={handleDeleteFlashcard}
               onMarkCorrect={handleMarkCorrect}
+              onUpdate={mutate}
             />
           ))}
         </div>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import DeleteButton from "../../DeleteButton/DeleteButton";
+import EditFlashcardModal from "../../EditFlashcardModal/EditFlashcardModal";
 import {
   AnswerButton,
   FlashcardWrapper,
@@ -9,30 +9,73 @@ import {
   CorrectButton,
   IncorrectButton,
   CorrectBadge,
+  EditButton,
 } from "./StyledFlippableFlashcard";
 
 export default function FlippableFlashcard({
   flashcard,
   onDelete,
   onMarkCorrect,
+  onUpdate,
 }) {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   function handleFlip() {
     setIsFlipped(!isFlipped);
   }
 
-  async function handleMarkCorrect() {
+  function handleEdit() {
+    setIsEditModalOpen(true);
+  }
+
+  const handleSave = (id, updatedData) => {
+    return fetch(`/api/flashcards/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedData),
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to update flashcard");
+      }
+      return response;
+    })
+    .then(() => {
+    
+      if (onUpdate) {
+        onUpdate();
+      }
+    })
+    .catch((error) => {
+      console.error("Error updating flashcard:", error);
+      throw error; 
+    });
+  };
+
+  function handleMarkCorrect() {
     if (onMarkCorrect) {
-      await onMarkCorrect(flashcard._id, true);
-      setIsFlipped(false);
+      onMarkCorrect(flashcard._id, true)
+      .then(() => {
+        setIsFlipped(false);
+      })
+      .catch((error) => {
+        console.error("Error marking as correct:", error);
+      });
     }
   }
 
-  async function handleMarkIncorrect() {
+  function handleMarkIncorrect() {
     if (onMarkCorrect) {
-      await onMarkCorrect(flashcard._id, false);
-      setIsFlipped(false);
+      onMarkCorrect(flashcard._id, false)
+      .then(() => {
+        setIsFlipped(false);
+      })
+      .catch((error) => {
+        console.error("Error marking as incorrect:", error);
+      });
     }
   }
 
@@ -61,9 +104,16 @@ export default function FlippableFlashcard({
           </ButtonContainer>
         </div>
       )}
-      <div>
-        <DeleteButton id={flashcard._id} onDelete={onDelete} />
-      </div>
+
+      <EditButton onClick={handleEdit}>Edit</EditButton>
+
+      <EditFlashcardModal
+        flashcard={flashcard}
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        onSave={handleSave}
+        onDelete={onDelete}
+      />
     </FlashcardWrapper>
   );
 }

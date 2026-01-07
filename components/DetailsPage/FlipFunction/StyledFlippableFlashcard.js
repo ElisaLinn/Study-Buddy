@@ -2,8 +2,10 @@ import styled from "styled-components";
 
 export const FlashcardWrapper = styled.div`
   padding: 1rem;
-  background-color: ${(props) => (props.isCorrect ? "#f8fff9" : "var(--card-foreground)")};
-  border: ${(props) => (props.isCorrect ? "3px solid #28a745" : "1px solid #ccc")};
+  background-color: ${(props) =>
+    props.isCorrect ? "#f8fff9" : "var(--card-foreground)"};
+  border: ${(props) =>
+    props.isCorrect ? "3px solid #28a745" : "1px solid #ccc"};
   border-radius: 25px;
   margin-bottom: 2rem;
   position: relative;
@@ -67,4 +69,19 @@ export const CorrectBadge = styled.div`
   right: 10px;
   color: #28a745;
   font-size: 20px;
+`;
+
+export const EditButton = styled.button`
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  margin: 10px 0;
+  cursor: pointer;
+  font-size: 14px;
+
+  &:hover {
+    background-color: #0056b3;
+  }
 `;
