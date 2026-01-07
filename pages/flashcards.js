@@ -65,11 +65,13 @@ export default function FlashcardsPage() {
   }
 
   // Filter nur die Flashcards, die NICHT als korrekt markiert sind
-  const activeFlashcards = flashcards.filter(flashcard => !flashcard.isCorrect);
+  const activeFlashcards = flashcards.filter(
+    (flashcard) => !flashcard.isCorrect
+  );
 
   if (activeFlashcards.length === 0) {
     return (
-      <div style={{ padding: '20px' }}>
+      <div style={{ padding: "20px" }}>
         <h1>All Flashcards</h1>
         <p>All Flashcard are achivaded! Look at archive.</p>
       </div>
@@ -81,11 +83,12 @@ export default function FlashcardsPage() {
       <h1>Alle Flashcards ({activeFlashcards.length})</h1>
       <div>
         {activeFlashcards.map((flashcard) => (
-          <FlippableFlashcard 
+          <FlippableFlashcard
             key={flashcard._id}
             flashcard={flashcard}
             onDelete={handleDeleteFlashcard}
             onMarkCorrect={handleMarkCorrect}
+            onUpdate={mutate}
           />
         ))}
       </div>

@@ -20,11 +20,23 @@ export default async function handler(request, response) {
     }
   } else if (request.method === "PATCH") {
     try {
-      const { isCorrect } = request.body;
+      const { isCorrect, question, answer } = request.body;
+      
+      // Build update object based on provided fields
+      const updateFields = {};
+      if (isCorrect !== undefined) {
+        updateFields.isCorrect = isCorrect;
+      }
+      if (question !== undefined) {
+        updateFields.question = question;
+      }
+      if (answer !== undefined) {
+        updateFields.answer = answer;
+      }
       
       const updatedFlashcard = await Flashcard.findByIdAndUpdate(
         id, 
-        { isCorrect: isCorrect },
+        updateFields,
         { new: true }
       );
       
