@@ -14,8 +14,8 @@ export default function ArchivePage({
         <>
           <Link href="/archive">← Back to all archived flashcards</Link>
           <h1>
-            {archivedFlashcards.length} correct Flashcards from "
-            {currentCollection.title}"
+            {archivedFlashcards.length} correct Flashcards from 
+            {currentCollection.title}
           </h1>
         </>
       ) : (
