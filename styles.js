@@ -104,7 +104,7 @@ export default createGlobalStyle`
 --alert: #9F2F1B;
 --alert-foreground: #F5B2A8; */
 
-  /* --background:  #D6D9C6;
+  --background:  #D6D9C6;
 --background-foreground: #AEB39A;
 --background-secondary: #1E2118;
 --background-tertiary: #5F6652;
@@ -119,7 +119,7 @@ export default createGlobalStyle`
 --accent:  #8A7FBF;
 --accent-foreground: #F4F1FF;
 --alert: #8E3A18;
---alert-foreground: #F2B8A1; */
+--alert-foreground: #F2B8A1;
 }
  svg {
     width: 32px;
