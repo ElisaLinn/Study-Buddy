@@ -59,7 +59,7 @@ export default function EditFlashcardModal({
         </ModalHeader>
 
         <FormGroup>
-          <Label htmlFor="question">Qustion:</Label>
+          <Label htmlFor="question">Question:</Label>
           <Textarea
             id="question"
             value={question}

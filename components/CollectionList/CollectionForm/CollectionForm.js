@@ -15,14 +15,13 @@ export default function CollectionForm ({ onSubmit, buttonText = "Submit" }){
     const formData = new FormData(event.target);
     const collectionData = Object.fromEntries(formData);
 
-    // Rename the field to match the schema
     const cleanedData = {
       title: collectionData.CollectionTitle
     };
 
     try {
       if (onSubmit) {
-        // Use the prop function if provided
+    
         await onSubmit(cleanedData);
         setSuccessMessage("A new collection has been created!");
         event.target.reset();
