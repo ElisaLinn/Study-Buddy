@@ -15,7 +15,8 @@ export default function CollectionCard({_id, title, flashcardCount, correctCount
                     <p>
                     <CorrectFlashcardCounter 
                         correctCount={correctCount} 
-                        totalCount={flashcardCount} 
+                        totalCount={flashcardCount}
+                        collectionId={_id}
                     />
                     </p>
                 </div>
