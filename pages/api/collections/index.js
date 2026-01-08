@@ -16,9 +16,15 @@ export default async function handler(request, response) {
             collectionId: collection._id
           });
           
+          const correctCount = await Flashcard.countDocuments({
+            collectionId: collection._id,
+            isCorrect: true
+          });
+          
           return {
             ...collection.toObject(),
-            flashcardCount: flashcardCount
+            flashcardCount: flashcardCount,
+            correctCount: correctCount
           };
         })
       );
