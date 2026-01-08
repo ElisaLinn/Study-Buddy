@@ -41,6 +41,7 @@ export default function CollectionList({collections, onAddCollection}){
                         _id={collection._id}
                         title={collection.title}
                         flashcardCount={collection.flashcardCount}
+                        correctCount={collection.correctCount}
                     />    
                 </li>
             ))}
