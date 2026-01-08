@@ -25,8 +25,8 @@ export default function ArchivePage() {
       (flashcard) => flashcard.collectionId === collection
     );
   }
-
-  const currentCollection = collections.find((col) => col === collection);
+  
+  const currentCollection = collections?.find((col) => col._id === collection);
 
   async function handleMarkCorrect(flashcardId, isCorrect) {
     try {

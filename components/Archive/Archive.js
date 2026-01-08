@@ -24,7 +24,7 @@ export default function ArchivePage({
       {archivedFlashcards.length === 0 ? (
         <p>
           {currentCollection
-            ? `No correct flashcards from "${currentCollection.title}" yet.`
+            ? "No correct flashcards from ${currentCollection.title} yet."
             : "No flashcards here yet. Mark Flashcards as correct to see them here."}
         </p>
       ) : (
