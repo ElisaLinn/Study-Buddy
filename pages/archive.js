@@ -1,9 +1,13 @@
 import useSWR from "swr";
-import FlippableFlashcard from "@/components/DetailsPage/FlipFunction/FlippableFlashcard";
+import { useRouter } from "next/router";
+import Archive from "@/components/Archive/Archive";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function ArchivePage() {
+  const router = useRouter();
+  const { collection } = router.query;
+
   const {
     data: allFlashcards,
     isLoading,
@@ -11,9 +15,18 @@ export default function ArchivePage() {
     mutate,
   } = useSWR("/api/flashcards", fetcher);
 
-  // Filter nur die korrekten (archivierten) Flashcards
-  const archivedFlashcards =
+  const { data: collections } = useSWR("/api/collections", fetcher);
+
+  let archivedFlashcards =
     allFlashcards?.filter((flashcard) => flashcard.isCorrect) || [];
+
+  if (collection && archivedFlashcards.length > 0) {
+    archivedFlashcards = archivedFlashcards.filter(
+      (flashcard) => flashcard.collectionId === collection
+    );
+  }
+
+  const currentCollection = collections.find((col) => col === collection);
 
   async function handleMarkCorrect(flashcardId, isCorrect) {
     try {
@@ -26,7 +39,7 @@ export default function ArchivePage() {
       });
 
       if (response.ok) {
-        mutate(); // Refresh the flashcards list
+        mutate();
       } else {
         alert("Error updating flashcard");
       }
@@ -42,7 +55,7 @@ export default function ArchivePage() {
       });
 
       if (response.ok) {
-        mutate(); // Refresh the flashcards list
+        mutate();
       } else {
         alert("Error deleting flashcard");
       }
@@ -60,25 +73,12 @@ export default function ArchivePage() {
   }
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Archiv correct Flashcards ({archivedFlashcards.length})</h1>
-      {archivedFlashcards.length === 0 ? (
-        <p>
-          No Flascards here yet. Mark Flashcards as correct to see them here.
-        </p>
-      ) : (
-        <div>
-          {archivedFlashcards.map((flashcard) => (
-            <FlippableFlashcard
-              key={flashcard._id}
-              flashcard={flashcard}
-              onDelete={handleDeleteFlashcard}
-              onMarkCorrect={handleMarkCorrect}
-              onUpdate={mutate}
-            />
-          ))}
-        </div>
-      )}
-    </div>
+    <Archive
+      archivedFlashcards={archivedFlashcards}
+      currentCollection={currentCollection}
+      onDelete={handleDeleteFlashcard}
+      onMarkCorrect={handleMarkCorrect}
+      onUpdate={mutate}
+    />
   );
 }
