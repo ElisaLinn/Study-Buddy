@@ -1,4 +1,5 @@
 import { useState } from "react";
+import useSWR from "swr";
 import {
   ModalOverlay,
   ModalContent,
@@ -7,11 +8,14 @@ import {
   FormGroup,
   Label,
   Textarea,
+  Select,
   ButtonGroup,
   SaveButton,
   CancelButton,
   DeleteButton,
 } from "./StyledEditFlashcardModal";
+
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function EditFlashcardModal({
   flashcard,
@@ -22,18 +26,23 @@ export default function EditFlashcardModal({
 }) {
   const [question, setQuestion] = useState(flashcard?.question || "");
   const [answer, setAnswer] = useState(flashcard?.answer || "");
+  const [selectedCollectionId, setSelectedCollectionId] = useState(flashcard?.collectionId || "");
+  
+  // Fetch collections for dropdown
+  const { data: collections } = useSWR("/api/collections", fetcher);
 
   if (!isOpen || !flashcard) return null;
 
   const handleSave = () => {
-    if (!question || !answer) {
-      alert("Bitte fülle alle Felder aus");
+    if (!question || !answer || !selectedCollectionId) {
+      alert("Please fill up");
       return;
     }
 
     onSave(flashcard._id, {
       question: question,
       answer: answer,
+      collectionId: selectedCollectionId,
     });
     onClose();
   };
@@ -44,9 +53,9 @@ export default function EditFlashcardModal({
   };
 
   const handleClose = () => {
-  
     setQuestion(flashcard.question);
     setAnswer(flashcard.answer);
+    setSelectedCollectionId(flashcard.collectionId);
     onClose();
   };
 
@@ -78,6 +87,22 @@ export default function EditFlashcardModal({
             rows={4}
             placeholder="What´s your Answer"
           />
+        </FormGroup>
+
+        <FormGroup>
+          <Label htmlFor="collection">Collection:</Label>
+          <Select
+            id="collection"
+            value={selectedCollectionId}
+            onChange={(event) => setSelectedCollectionId(event.target.value)}
+          >
+            <option value="">Choose a collection...</option>
+            {collections?.map((collection) => (
+              <option key={collection._id} value={collection._id}>
+                {collection.title}
+              </option>
+            ))}
+          </Select>
         </FormGroup>
 
         <ButtonGroup>
