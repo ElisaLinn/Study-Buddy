@@ -20,7 +20,7 @@ export default async function handler(request, response) {
     }
   } else if (request.method === "PATCH") {
     try {
-      const { isCorrect, question, answer } = request.body;
+      const { isCorrect, question, answer, collectionId } = request.body;
       
       // Build update object based on provided fields
       const updateFields = {};
@@ -32,6 +32,9 @@ export default async function handler(request, response) {
       }
       if (answer !== undefined) {
         updateFields.answer = answer;
+      }
+      if (collectionId !== undefined) {
+        updateFields.collectionId = collectionId;
       }
       
       const updatedFlashcard = await Flashcard.findByIdAndUpdate(
