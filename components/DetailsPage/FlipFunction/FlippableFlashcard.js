@@ -1,4 +1,5 @@
 import { useState } from "react";
+import useSWR from "swr";
 import EditFlashcardModal from "../../EditFlashcardModal/EditFlashcardModal";
 import {
   AnswerButton,
@@ -10,7 +11,10 @@ import {
   IncorrectButton,
   CorrectBadge,
   EditButton,
+  CollectionTag,
 } from "./StyledFlippableFlashcard";
+
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function FlippableFlashcard({
   flashcard,
@@ -20,6 +24,11 @@ export default function FlippableFlashcard({
 }) {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+
+  const { data: collections } = useSWR("/api/collections", fetcher);
+
+  const collection = collections?.find((col) => col._id === flashcard.collectionId);
 
   function handleFlip() {
     setIsFlipped(!isFlipped);
@@ -81,6 +90,7 @@ export default function FlippableFlashcard({
 
   return (
     <FlashcardWrapper isCorrect={flashcard.isCorrect}>
+     
       {flashcard.isCorrect && <CorrectBadge>✓</CorrectBadge>}
 
       {!isFlipped ? (
@@ -89,6 +99,7 @@ export default function FlippableFlashcard({
           <QuestionText>{flashcard.question}</QuestionText>
           <AnswerButton onClick={handleFlip}>Show Answer</AnswerButton>
         </div>
+        
       ) : (
         <div>
           <h3>Question:</h3>
@@ -102,11 +113,17 @@ export default function FlippableFlashcard({
             </IncorrectButton>
             <CorrectButton onClick={handleMarkCorrect}>Correct</CorrectButton>
           </ButtonContainer>
+         
         </div>
+    
       )}
 
       <EditButton onClick={handleEdit}>Edit</EditButton>
-
+<section>
+   {collection && (
+            <CollectionTag>{collection.title}</CollectionTag>
+          )}
+</section>
       <EditFlashcardModal
         flashcard={flashcard}
         isOpen={isEditModalOpen}
