@@ -11,6 +11,18 @@ export const FlashcardWrapper = styled.div`
   position: relative;
 `;
 
+export const CollectionTag = styled.span`
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border: 2px solid var(--secondary);
+  z-index: 1;
+`;
+
 export const AnswerButton = styled.button`
   padding: 1rem 2rem;
   background-color: var(--primary);

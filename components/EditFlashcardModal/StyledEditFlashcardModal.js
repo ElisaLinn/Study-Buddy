@@ -103,6 +103,22 @@ export const Textarea = styled.textarea`
   }
 `;
 
+export const Select = styled.select`
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: white;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  }
+`;
+
 export const ButtonGroup = styled.div`
   display: flex;
   justify-content: space-between;
