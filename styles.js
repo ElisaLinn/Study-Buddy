@@ -109,6 +109,7 @@ export default createGlobalStyle`
 --background-secondary: #1E2118;
 --background-tertiary: #5F6652;
 --card-foreground: #F6F7F2;
+--card-foreground-correct: #f6faedff;
 --input: #12130E;
 --card: #1E2118;
 --bookmark: #6F7A3B;

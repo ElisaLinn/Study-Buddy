@@ -6,23 +6,39 @@ export const ModalOverlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 99999;
+  pointer-events: all;
 `;
 
 export const ModalContent = styled.div`
   background: white;
-  border-radius: 12px;
-  padding: 24px;
-  min-width: 400px;
-  max-width: 600px;
-  width: 90%;
-  max-height: 80vh;
+  border-radius: 16px;
+  padding: 32px;
+  min-width: 500px;
+  max-width: 800px;
+  width: 95%;
+  max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  transform: scale(1);
+  animation: modalAppear 0.2s ease-out;
+  position: relative;
+  z-index: 100000;
+  
+  @keyframes modalAppear {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
 `;
 
 export const ModalHeader = styled.div`
@@ -144,6 +160,7 @@ export const SaveButton = styled.button`
 
   &:hover {
     background-color: #218838;
+    
   }
 `;
 

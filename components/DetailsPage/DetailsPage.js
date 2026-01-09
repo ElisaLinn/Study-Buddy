@@ -3,7 +3,7 @@ import AddElement from "../AddElement.js/AddElement";
 import BackButton from "./BackButton/BackButton";
 import FlashcardForm from "./FlashcardForm";
 import FlippableFlashcard from "./FlipFunction/FlippableFlashcard";
-import { DetailsPageWrapper, FlashcardWrapper } from "./StyledDetailsPage";
+import { DetailsPageWrapper} from "./StyledDetailsPage";
 
 export default function CollectionDetails({
   collection,
@@ -11,8 +11,11 @@ export default function CollectionDetails({
   onAddFlashcard,
   onDeleteFlashcard,
   onMarkCorrect,
+  onUpdate,
 }) {
   const [isEditing, setIsEditing] = useState(false);
+  const [editingFlashcard, setEditingFlashcard] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   if (!collection) {
     return <p>No collection data available</p>;
@@ -30,6 +33,35 @@ export default function CollectionDetails({
 
   function handleCancel() {
     setIsEditing(false);
+  }
+
+  function handleEditFlashcard(flashcard) {
+    setEditingFlashcard(flashcard);
+    setIsEditModalOpen(true);
+  }
+
+  async function handleUpdateFlashcard(id, updatedData) {
+    try {
+      const response = await fetch(`/api/flashcards/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update flashcard");
+      }
+
+      // Refresh the collection data
+      if (onUpdate) {
+        onUpdate();
+      }
+    } catch (error) {
+      console.error("Error updating flashcard:", error);
+      throw error;
+    }
   }
 
   if (isEditing) {
@@ -56,12 +88,15 @@ export default function CollectionDetails({
               flashcard={flashcard}
               onDelete={onDeleteFlashcard}
               onMarkCorrect={onMarkCorrect}
+              onUpdate={onUpdate}
             />
           ))}
         </div>
       )}
 
       <button onClick={onDelete}>Delete Collection</button>
+      
+      
     </DetailsPageWrapper>
   );
 }
