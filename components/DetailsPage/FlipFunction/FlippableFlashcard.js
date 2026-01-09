@@ -4,6 +4,8 @@ import EditFlashcardModal from "../../EditFlashcardModal/EditFlashcardModal";
 import {
   AnswerButton,
   FlashcardWrapper,
+  FlipContainer,
+  FlashcardSide,
   HideAnswerButton,
   QuestionText,
   ButtonContainer,
@@ -12,7 +14,10 @@ import {
   CorrectBadge,
   EditButton,
   CollectionTag,
+  CollectionTagStyled,
+  TagWrapper,
 } from "./StyledFlippableFlashcard";
+import { Pencil } from "lucide-react";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -89,41 +94,49 @@ export default function FlippableFlashcard({
   }
 
   return (
-    <FlashcardWrapper isCorrect={flashcard.isCorrect}>
-     
-      {flashcard.isCorrect && <CorrectBadge>✓</CorrectBadge>}
-
-      {!isFlipped ? (
-        <div>
-          <h3>Question:</h3>
-          <QuestionText>{flashcard.question}</QuestionText>
-          <AnswerButton onClick={handleFlip}>Show Answer</AnswerButton>
-        </div>
+    <>
+      <FlashcardWrapper isFlipped={isFlipped}>
+        <FlipContainer isFlipped={isFlipped} isCorrect={flashcard.isCorrect}>
         
-      ) : (
-        <div>
-          <h3>Question:</h3>
-          <p>{flashcard.question}</p>
-          <h3>Antwort:</h3>
-          <p>{flashcard.answer}</p>
-          <ButtonContainer>
-            <HideAnswerButton onClick={handleFlip}>Back</HideAnswerButton>
-            <IncorrectButton onClick={handleMarkIncorrect}>
-              Incorrect
-            </IncorrectButton>
-            <CorrectButton onClick={handleMarkCorrect}>Correct</CorrectButton>
-          </ButtonContainer>
+          <FlashcardSide className="front" isCorrect={flashcard.isCorrect}>
+            {flashcard.isCorrect && <CorrectBadge>✓</CorrectBadge>}
+            <h3>Question:</h3>
+            <QuestionText>{flashcard.question}</QuestionText>
+            <ButtonContainer>
+            <AnswerButton onClick={handleFlip}>Show Answer</AnswerButton>
+            </ButtonContainer>
+            <EditButton onClick={handleEdit}><Pencil/></EditButton>
+              <TagWrapper>
+            {collection && (
+              <CollectionTag>{collection.title}</CollectionTag>
+            )}
+            </TagWrapper>
+          </FlashcardSide>
+          
          
-        </div>
-    
-      )}
-
-      <EditButton onClick={handleEdit}>Edit</EditButton>
-<section>
-   {collection && (
-            <CollectionTag>{collection.title}</CollectionTag>
-          )}
-</section>
+          <FlashcardSide className="back" isCorrect={flashcard.isCorrect}>
+            {flashcard.isCorrect && <CorrectBadge>✓</CorrectBadge>}
+            <h3>Antwort:</h3>
+            <p>{flashcard.answer}</p>
+            <ButtonContainer>
+              <HideAnswerButton onClick={handleFlip}>Back</HideAnswerButton>
+               </ButtonContainer>
+              <ButtonContainer>
+              <IncorrectButton onClick={handleMarkIncorrect}>
+                Incorrect
+              </IncorrectButton>
+              <CorrectButton onClick={handleMarkCorrect}>Correct</CorrectButton>
+              </ButtonContainer>
+            <EditButton onClick={handleEdit}><Pencil/></EditButton>
+            <TagWrapper>
+            {collection && (
+              <CollectionTag>{collection.title}</CollectionTag>
+            )}
+            </TagWrapper>
+          </FlashcardSide>
+        </FlipContainer>
+      </FlashcardWrapper>
+      
       <EditFlashcardModal
         flashcard={flashcard}
         isOpen={isEditModalOpen}
@@ -131,6 +144,6 @@ export default function FlippableFlashcard({
         onSave={handleSave}
         onDelete={onDelete}
       />
-    </FlashcardWrapper>
+    </>
   );
 }
