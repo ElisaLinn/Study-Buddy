@@ -117,6 +117,7 @@ export default function CollectionDetailsPage() {
         onAddFlashcard={handleAddFlashcard}
         onDeleteFlashcard={handleDeleteFlashcard}
         onMarkCorrect={handleMarkCorrect}
+        onUpdate={mutate}
       />
     </>
   );

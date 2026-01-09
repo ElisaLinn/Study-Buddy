@@ -26,9 +26,10 @@ export default function EditFlashcardModal({
 }) {
   const [question, setQuestion] = useState(flashcard?.question || "");
   const [answer, setAnswer] = useState(flashcard?.answer || "");
-  const [selectedCollectionId, setSelectedCollectionId] = useState(flashcard?.collectionId || "");
-  
-  // Fetch collections for dropdown
+  const [selectedCollectionId, setSelectedCollectionId] = useState(
+    flashcard?.collectionId || ""
+  );
+
   const { data: collections } = useSWR("/api/collections", fetcher);
 
   if (!isOpen || !flashcard) return null;
