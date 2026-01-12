@@ -1,12 +1,14 @@
 import Link from "next/link"
-import { StyledBackButton } from "./StyledBackButton";
+
+import { ArrowBigLeft } from "lucide-react";
+import { BackLink } from "@/components/StylingGeneral/StylingGeneral";
 
 
 
 export default function BackButton (){
     return(
-        <StyledBackButton href="/" aria-label="Back to Activities">
-         Back
-            </StyledBackButton>
+        <BackLink href="/" aria-label="Back to Activities">
+         <ArrowBigLeft/>
+            </BackLink>
     );
 }

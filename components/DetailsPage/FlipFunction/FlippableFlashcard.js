@@ -16,8 +16,12 @@ import {
   CollectionTag,
   CollectionTagStyled,
   TagWrapper,
+  AnswerText,
+  SubtitleWrapper,
+  SubtitleCard,
 } from "./StyledFlippableFlashcard";
 import { Pencil } from "lucide-react";
+import { Subtitle, Text } from "@/components/StylingGeneral/StylingGeneral";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -30,10 +34,11 @@ export default function FlippableFlashcard({
   const [isFlipped, setIsFlipped] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-
   const { data: collections } = useSWR("/api/collections", fetcher);
 
-  const collection = collections?.find((col) => col._id === flashcard.collectionId);
+  const collection = collections?.find(
+    (col) => col._id === flashcard.collectionId
+  );
 
   function handleFlip() {
     setIsFlipped(!isFlipped);
@@ -51,45 +56,44 @@ export default function FlippableFlashcard({
       },
       body: JSON.stringify(updatedData),
     })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Failed to update flashcard");
-      }
-      return response;
-    })
-    .then(() => {
-    
-      if (onUpdate) {
-        onUpdate();
-      }
-    })
-    .catch((error) => {
-      console.error("Error updating flashcard:", error);
-      throw error; 
-    });
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to update flashcard");
+        }
+        return response;
+      })
+      .then(() => {
+        if (onUpdate) {
+          onUpdate();
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating flashcard:", error);
+        throw error;
+      });
   };
 
   function handleMarkCorrect() {
     if (onMarkCorrect) {
       onMarkCorrect(flashcard._id, true)
-      .then(() => {
-        setIsFlipped(false);
-      })
-      .catch((error) => {
-        console.error("Error marking as correct:", error);
-      });
+        .then(() => {
+          setIsFlipped(false);
+        })
+        .catch((error) => {
+          console.error("Error marking as correct:", error);
+        });
     }
   }
 
   function handleMarkIncorrect() {
     if (onMarkCorrect) {
       onMarkCorrect(flashcard._id, false)
-      .then(() => {
-        setIsFlipped(false);
-      })
-      .catch((error) => {
-        console.error("Error marking as incorrect:", error);
-      });
+        .then(() => {
+          setIsFlipped(false);
+        })
+        .catch((error) => {
+          console.error("Error marking as incorrect:", error);
+        });
     }
   }
 
@@ -97,46 +101,48 @@ export default function FlippableFlashcard({
     <>
       <FlashcardWrapper isFlipped={isFlipped}>
         <FlipContainer isFlipped={isFlipped} isCorrect={flashcard.isCorrect}>
-        
           <FlashcardSide className="front" isCorrect={flashcard.isCorrect}>
             {flashcard.isCorrect && <CorrectBadge>✓</CorrectBadge>}
-            <h3>Question:</h3>
+            <SubtitleWrapper>
+            <SubtitleCard>Question:</SubtitleCard>
+            </SubtitleWrapper>
             <QuestionText>{flashcard.question}</QuestionText>
             <ButtonContainer>
-            <AnswerButton onClick={handleFlip}>Show Answer</AnswerButton>
+              <AnswerButton onClick={handleFlip}>Show Answer</AnswerButton>
             </ButtonContainer>
-            <EditButton onClick={handleEdit}><Pencil/></EditButton>
-              <TagWrapper>
-            {collection && (
-              <CollectionTag>{collection.title}</CollectionTag>
-            )}
+            <EditButton onClick={handleEdit}>
+              <Pencil />
+            </EditButton>
+            <TagWrapper>
+              {collection && <CollectionTag>{collection.title}</CollectionTag>}
             </TagWrapper>
           </FlashcardSide>
-          
-         
+
           <FlashcardSide className="back" isCorrect={flashcard.isCorrect}>
             {flashcard.isCorrect && <CorrectBadge>✓</CorrectBadge>}
-            <h3>Antwort:</h3>
-            <p>{flashcard.answer}</p>
+             <SubtitleWrapper>
+            <SubtitleCard>Answer:</SubtitleCard>
+            </SubtitleWrapper>
+            <AnswerText>{flashcard.answer}</AnswerText>
             <ButtonContainer>
-              <HideAnswerButton onClick={handleFlip}>Back</HideAnswerButton>
-               </ButtonContainer>
-              <ButtonContainer>
+              <HideAnswerButton onClick={handleFlip}>Flip Back</HideAnswerButton>
+            </ButtonContainer>
+            <ButtonContainer>
               <IncorrectButton onClick={handleMarkIncorrect}>
                 Incorrect
               </IncorrectButton>
               <CorrectButton onClick={handleMarkCorrect}>Correct</CorrectButton>
-              </ButtonContainer>
-            <EditButton onClick={handleEdit}><Pencil/></EditButton>
+            </ButtonContainer>
+            <EditButton onClick={handleEdit}>
+              <Pencil />
+            </EditButton>
             <TagWrapper>
-            {collection && (
-              <CollectionTag>{collection.title}</CollectionTag>
-            )}
+              {collection && <CollectionTag>{collection.title}</CollectionTag>}
             </TagWrapper>
           </FlashcardSide>
         </FlipContainer>
       </FlashcardWrapper>
-      
+
       <EditFlashcardModal
         flashcard={flashcard}
         isOpen={isEditModalOpen}
