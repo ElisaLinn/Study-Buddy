@@ -22,7 +22,7 @@ export default async function handler(request, response) {
     try {
       const { isCorrect, question, answer, collectionId } = request.body;
       
-      // Build update object based on provided fields
+    
       const updateFields = {};
       if (isCorrect !== undefined) {
         updateFields.isCorrect = isCorrect;

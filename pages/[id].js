@@ -38,12 +38,12 @@ export default function CollectionDetailsPage() {
   }
 
   async function handleDelete() {
-    const response = await fetch(`/api/flashcards/${id}`, {
+    const response = await fetch(`/api/collections/${id}`, {
       method: "DELETE",
     });
 
     if (response.ok) {
-      return;
+      router.push("/");
     } else {
       return alert("Please try again");
     }
@@ -80,7 +80,7 @@ export default function CollectionDetailsPage() {
       });
 
       if (response.ok) {
-        mutate(); // Refresh the collection data
+        mutate();
       } else {
         alert("Error deleting flashcard");
       }
@@ -100,7 +100,7 @@ export default function CollectionDetailsPage() {
       });
 
       if (response.ok) {
-        mutate(); // Refresh the collection data
+        mutate(); 
       } else {
         alert("Error updating flashcard");
       }

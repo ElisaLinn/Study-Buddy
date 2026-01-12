@@ -1,4 +1,5 @@
 import CollectionList from "@/components/CollectionList/CollectionList";
+import { Text } from "@/components/StylingGeneral/StylingGeneral";
 import useSWR from "swr";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -10,6 +11,18 @@ export default function HomePage() {
     error,
     mutate,
   } = useSWR("/api/collections", fetcher);
+
+  if (!collections || collections.length === 0) {
+    return (
+      <div>
+        <h1>All Flashcards</h1>
+        <p>No Flashcard found.</p>
+      </div>
+    );
+  }
+
+  
+  
 
   async function handleAddCollection(newCollectionData) {
     try {
@@ -36,11 +49,11 @@ export default function HomePage() {
   if (!collections) return <p>No activities found.</p>;
 
   return (
-    <div>
+    <>
       <CollectionList
         collections={collections}
         onAddCollection={handleAddCollection}
       />
-    </div>
+    </>
   );
 }
