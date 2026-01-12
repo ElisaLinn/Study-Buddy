@@ -3,8 +3,8 @@ import styled from "styled-components";
 export const AddButton = styled.button`
 position: fixed;
 right:5px;
-bottom:170px;
-padding: 1rem;
+bottom:70px;
+padding: 0.2rem;
 border-radius:50px;
 background-color:var(--primary);
 border: 5px solid var(--primary-foreground);
