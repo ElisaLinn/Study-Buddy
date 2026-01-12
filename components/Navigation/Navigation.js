@@ -9,17 +9,17 @@ export default function Navigation() {
     <NavigationWrapper>
         <NavigationList>
             <NavigationListItem>
-                <NavigationLink href="/" className={router.pathname === "/" ? "highlighted" : ""}>
+                <NavigationLink href="/" $highlighted={router.pathname === "/"}>
                     <House/>
                 </NavigationLink>
             </NavigationListItem>
             <NavigationListItem>
-                <NavigationLink href="archive" className={router.pathname === "/" ? "highlighted" : ""}>
+                <NavigationLink href="/archive" $highlighted={router.pathname === "/archive"}>
                     <Archive/>
                 </NavigationLink>
             </NavigationListItem>
               <NavigationListItem>
-                <NavigationLink href="flashcards" className={router.pathname === "/" ? "highlighted" : ""}>
+                <NavigationLink href="/flashcards" $highlighted={router.pathname === "/flashcards"}>
                     <LibraryBig/>
                 </NavigationLink>
             </NavigationListItem>

@@ -1,26 +1,25 @@
 import styled from "styled-components";
 
 export const FlashcardWrapper = styled.div`
-  position:relative;
+  position: relative;
   margin: 2rem auto;
- 
   perspective: 1000px;
-  min-height: 250px;
-  width: 700px;
-  height: 300px;
+  min-height: 15rem;
+  width: 95%;
+  max-width: 45rem;
+  height: 20rem;
 `;
+
+
 
 export const FlipContainer = styled.div`
   width: 100%;
   height: 100%;
-
   background-color: ${(props) =>
     props.isCorrect ? "var(--card-foreground-correct)" : "var(--card-foreground)"};
   border: ${(props) =>
     props.isCorrect ? "5px solid #28a745" : "5px solid var(--accent)"};
   border-radius: 25px;
-  
-  margin: 2rem auto;
   position: relative;
   transition: transform 0.6s;
   transform-style: preserve-3d;
@@ -36,6 +35,7 @@ export const FlashcardSide = styled.div`
   backface-visibility: hidden;
   border-radius: 25px;
   padding: 1rem;
+  padding-top: 5.5rem;
   padding-bottom: 4rem;
   box-sizing: border-box;
   
@@ -55,7 +55,7 @@ export const CollectionTag = styled.span`
   border-radius: 15px;
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.7px;
   border: 2px solid var(--secondary);
   z-index: 1;
 `;
@@ -65,6 +65,8 @@ export const AnswerButton = styled.button`
   background-color: var(--primary);
   border-radius: 25px;
   border: 5px solid var(--primary-foreground);
+  margin-top:15px;
+
 `;
 
 export const HideAnswerButton = styled.button`
@@ -73,15 +75,30 @@ export const HideAnswerButton = styled.button`
   border-radius: 25px;
   border: 5px solid var(--terciary);
   color: white;
+  margin-bottom: 10px;
 `;
 
 export const QuestionText = styled.p`
-  font-size: 18px;
-  margin: 15px 0;
+ color: var(--secondary);
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+  margin-top: 1rem;
+`;
+
+export const AnswerText = styled.p`
+ color: var(--secondary);
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+  margin-top: 1rem;
 `;
 
 export const ButtonContainer = styled.div`
-  margin: 15px 0;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const CorrectButton = styled.button`
@@ -167,4 +184,29 @@ export const CollectionTagStyled = styled.span`
   letter-spacing: 0.5px;
   border: 2px solid var(--secondary);
   z-index: 10;
+`;
+
+export const SubtitleWrapper = styled.section`
+  background-color: var(--background-tertiary);
+  border-radius: 20px 20px 0px 0px;
+  
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  margin-bottom:2 rem;
+`;
+
+
+export const SubtitleCard = styled.h2`
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 1rem;
+  margin: 0;
+  color: var(--background);
 `;

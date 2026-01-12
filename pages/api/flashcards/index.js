@@ -16,7 +16,7 @@ export default async function handler(request, response) {
     try {
       const flashcardData = request.body;
 
-      // Validate required fields
+
       if (
         !flashcardData.question ||
         !flashcardData.answer ||
@@ -32,9 +32,7 @@ export default async function handler(request, response) {
       response.status(201).json(newFlashcard);
       return;
     } catch (error) {
-      response
-        .status(500)
-        .json({ status: "Error creating flashcard", error: error.message });
+      response.status(500).json({ status: "Error creating flashcard", error: error.message });
       return;
     }
   }

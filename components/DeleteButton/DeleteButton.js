@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { DeleteButtonStyled } from "./StyledDeleteButton";
+import { Trash2 } from "lucide-react";
 
 export default function DeleteButton({ onDelete, id }) {
    const [deleteButton, setDeleteButton] = useState(false);
@@ -18,9 +20,9 @@ export default function DeleteButton({ onDelete, id }) {
   if (!deleteButton) {
     return (
       <>
-        <button  type="button" onClick={handleFirstClick}>
-          Delete activity
-        </button>
+        <DeleteButtonStyled  type="button" onClick={handleFirstClick}>
+          <Trash2/>
+        </DeleteButtonStyled>
       </>
     );
   }
@@ -28,19 +30,17 @@ export default function DeleteButton({ onDelete, id }) {
  
   return (
     <>
-   
-    <section>
+      <section>
         <p>Really Delete?</p>
-    <div>
-      <button type="button" onClick={handleCancel}>
-        Cancel
-      </button>
-      <button type="button" onClick={handleConfirmDelete}>
-        Delete
-      </button>
-      </div>
+        <div>
+          <DeleteButtonStyled type="button" onClick={handleCancel}>
+            Cancel
+          </DeleteButtonStyled>
+          <DeleteButtonStyled type="button" onClick={handleConfirmDelete}>
+            Delete
+          </DeleteButtonStyled>
+        </div>
       </section>
-    
     </>
   );
 }

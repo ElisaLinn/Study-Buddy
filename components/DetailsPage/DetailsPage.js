@@ -4,6 +4,9 @@ import BackButton from "./BackButton/BackButton";
 import FlashcardForm from "./FlashcardForm";
 import FlippableFlashcard from "./FlipFunction/FlippableFlashcard";
 import { DetailsPageWrapper} from "./StyledDetailsPage";
+import { Subtitle, Text } from "../StylingGeneral/StylingGeneral";
+import { Trash2 } from "lucide-react";
+import DeleteButton from "../DeleteButton/DeleteButton";
 
 export default function CollectionDetails({
   collection,
@@ -54,7 +57,6 @@ export default function CollectionDetails({
         throw new Error("Failed to update flashcard");
       }
 
-      // Refresh the collection data
       if (onUpdate) {
         onUpdate();
       }
@@ -76,12 +78,11 @@ export default function CollectionDetails({
   return (
     <DetailsPageWrapper>
       <BackButton />
-      <AddElement onClick={handleEditing} />
-      <h1>{collection.title}</h1>
-
+           <AddElement onClick={handleEditing} />
+      <Subtitle>{collection.title}</Subtitle>
       {collection.flashcards && collection.flashcards.length > 0 && (
         <div>
-          <h2>Flashcards:</h2>
+          <Text>{collection.flashcards.length} created Flashcards</Text>
           {collection.flashcards.map((flashcard) => (
             <FlippableFlashcard
               key={flashcard._id}
@@ -94,7 +95,7 @@ export default function CollectionDetails({
         </div>
       )}
 
-      <button onClick={onDelete}>Delete Collection</button>
+      <DeleteButton onDelete={onDelete} id={collection?._id}><Trash2/></DeleteButton>
       
       
     </DetailsPageWrapper>

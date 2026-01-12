@@ -9,7 +9,7 @@ export default async function handler(request, response) {
     try {
       const collections = await Collection.find();
       
-      // Für jede Collection die Anzahl der Flashcards ermitteln
+     
       const collectionsWithCount = await Promise.all(
         collections.map(async (collection) => {
           const flashcardCount = await Flashcard.countDocuments({

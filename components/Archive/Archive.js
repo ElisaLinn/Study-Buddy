@@ -1,5 +1,8 @@
-import Link from "next/link";
+import { BackLink } from "@/components/StylingGeneral/StylingGeneral";
 import FlippableFlashcard from "../DetailsPage/FlipFunction/FlippableFlashcard";
+import { LucideArrowBigLeft } from "lucide-react";
+
+import { Text } from "../StylingGeneral/StylingGeneral";
 
 export default function ArchivePage({
   archivedFlashcards,
@@ -12,21 +15,21 @@ export default function ArchivePage({
     <div>
       {currentCollection ? (
         <>
-          <Link href="/archive">← Back to all archived flashcards</Link>
-          <h1>
-            {archivedFlashcards.length} correct Flashcards from 
-            {currentCollection.title}
-          </h1>
+          <BackLink href="/archive"><LucideArrowBigLeft/></BackLink>
+          <Text>
+            {archivedFlashcards.length} correct Flashcards from {currentCollection.title}
+          
+          </Text>
         </>
       ) : (
-        <h1>Archiv correct Flashcards ({archivedFlashcards.length})</h1>
+        <Text>You marked {archivedFlashcards.length} Flashcards as correct</Text>
       )}
       {archivedFlashcards.length === 0 ? (
-        <p>
+        <Text>
           {currentCollection
             ? "No correct flashcards from ${currentCollection.title} yet."
             : "No flashcards here yet. Mark Flashcards as correct to see them here."}
-        </p>
+        </Text>
       ) : (
         <div>
           {archivedFlashcards.map((flashcard) => (
