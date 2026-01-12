@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Link from "next/link"
+import Link from "next/link";
 
 export const PageWrapper = styled.div`
   display: flex;
@@ -32,7 +32,7 @@ export const Text = styled.p`
   font-size: 1rem;
   font-weight: 400;
   text-align: center;
-  margin-top: 3rem;
+  margin-top: 1rem;
 `;
 
 export const BackLink =styled(Link)`
