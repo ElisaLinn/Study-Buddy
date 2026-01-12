@@ -15,10 +15,10 @@ export default async function handler(request, response) {
         return;
       }
 
-      // Load flashcards that belong to this collection
+
       const flashcards = await Flashcard.find({ collectionId: id });
 
-      // Add flashcards to the collection object
+  
       const collectionWithFlashcards = {
         ...collection.toObject(),
         flashcards: flashcards,
@@ -64,6 +64,26 @@ export default async function handler(request, response) {
 
     await Flashcard.findByIdAndUpdate(id, title);
     response.status(200).json({ status: "OK!" });
+    return;
+  }
+
+  if (request.method === "DELETE") {
+    try {
+      // First delete all flashcards in this collection
+      await Flashcard.deleteMany({ collectionId: id });
+      
+      // Then delete the collection itself
+      const deletedCollection = await Collection.findByIdAndDelete(id);
+      
+      if (!deletedCollection) {
+        return response.status(404).json({ message: "Collection not found" });
+      }
+      
+      response.status(200).json({ message: "Collection and its flashcards deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting collection:", error);
+      response.status(400).json({ message: "Error deleting collection" });
+    }
     return;
   }
 
