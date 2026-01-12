@@ -3,15 +3,14 @@ import styled from "styled-components";
 
 export const NavigationWrapper = styled.footer`
 background-color: var(--background-tertiary);
-padding: 2rem;
+padding: 0,8rem;
 border: 5px solid var(--secondary);
 border-radius: 25px;
 list-style-type: none;
 bottom:0;
 position:fixed;
 width: 100%;
-display: flex;
-justify-content: space-around;
+
 align-items:center;
 `;
 
@@ -19,22 +18,27 @@ export const NavigationList = styled.ul`
 display: flex;
   justify-content: center;
   align-items: center;
-  margin: -3rem;
+  margin: -2rem;
   padding: 2rem;
   list-style: none;
-  gap: 2rem;
-  
-  
+  gap:5px;
+  align-items: space;
+ 
 `;
 
 export const NavigationListItem = styled.li`
-gap: 2rem;
-margin:0;
+
+
 background-color: var(--background-foreground);
   border-radius: 25px;
-  width: 200%;
-   margin: 0;
-  padding: 2rem;
+  width: 40%;
+ &:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.15);
+    color: var(--accent);    
+  }
+
+
 `;
 
 export const NavigationLink = styled(Link)`
@@ -44,7 +48,9 @@ display: flex;
   justify-content: center;
   text-decoration: none;
   color: ${({ $highlighted }) =>
-    $highlighted ? "var(--accent-foreground)" : "var(--background-secondary)"};
+    $highlighted ? "var(--accent)" : "var(--background-secondary)"};
+  background-color: ${({ $highlighted }) =>
+    $highlighted ? "var(--background-secondary)" : "transparent"};
   font-size: 0.9rem;
   font-weight: 500;
   padding: 0.5rem;
@@ -63,7 +69,8 @@ display: flex;
   }
 
   svg path, svg circle , svg line {
-    stroke: currentColor;
+    stroke: ${({ $highlighted }) =>
+      $highlighted ? "var(--accent)" : "currentColor"};
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
