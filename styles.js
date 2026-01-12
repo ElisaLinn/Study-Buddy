@@ -161,6 +161,7 @@ export default createGlobalStyle`
 body {
   margin: 0;
   margin-bottom: 7rem;
+  padding-top: 80px;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-family: system-ui;
   background: var(--background);

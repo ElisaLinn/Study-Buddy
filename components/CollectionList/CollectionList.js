@@ -1,20 +1,25 @@
 import { useState } from "react";
 import AddElement from "../AddElement.js/AddElement";
 import CollectionCard from "./CollectionCard";
-import { CollectionPageWrapper } from "./StyledCollection";
+import {
+  CollectionPageWrapper,
+  CollectionsList,
+  HeaderSection,
+  AddElementWrapper,
+} from "./StyledCollection";
 import CollectionForm from "./CollectionForm/CollectionForm";
+import { Text } from "../StylingGeneral/StylingGeneral";
 
+export default function CollectionList({ collections, onAddCollection }) {
+  const [isEditing, setIsEditing] = useState(false);
 
-export default function CollectionList({collections, onAddCollection}){
-     const [isEditing, setIsEditing] = useState(false);
-
-  function handleEditing() {                   
+  function handleEditing() {
     setIsEditing(true);
   }
 
-  function handleSubmit(newCollectionData) {                               
-    onAddCollection(newCollectionData);                                 
-    setIsEditing(false);                                               
+  function handleSubmit(newCollectionData) {
+    onAddCollection(newCollectionData);
+    setIsEditing(false);
   }
 
   function handleCancel() {
@@ -23,29 +28,36 @@ export default function CollectionList({collections, onAddCollection}){
 
   if (isEditing) {
     return (
-     <div>
+      <CollectionPageWrapper>
         <CollectionForm
           onSubmit={handleSubmit}
           buttonText="Create Collection"
         />
         <button onClick={handleCancel}>Cancel</button>
-      </div>
+      </CollectionPageWrapper>
     );
   }
-    return(
-        <CollectionPageWrapper>
-        <AddElement onClick={handleEditing}/>
-            {collections.map((collection) => (
-                <li key={collection._id}>
-                    <CollectionCard 
-                        _id={collection._id}
-                        title={collection.title}
-                        flashcardCount={collection.flashcardCount}
-                        correctCount={collection.correctCount}
-                    />    
-                </li>
-            ))}
-            <AddElement onClick={handleEditing}/>
-        </CollectionPageWrapper>
-    )
+  return (
+    <CollectionPageWrapper>
+      <HeaderSection>
+        <Text>
+          You have {collections.length} collection
+          {collections.length !== 1 ? "s" : ""}
+        </Text>
+      </HeaderSection>
+      <AddElement onClick={handleEditing} />
+      <CollectionsList>
+        {collections.map((collection) => (
+          <li key={collection._id}>
+            <CollectionCard
+              _id={collection._id}
+              title={collection.title}
+              flashcardCount={collection.flashcardCount}
+              correctCount={collection.correctCount}
+            />
+          </li>
+        ))}
+      </CollectionsList>
+    </CollectionPageWrapper>
+  );
 }
