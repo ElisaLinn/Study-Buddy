@@ -21,9 +21,6 @@ export default function HomePage() {
     );
   }
 
-  
-  
-
   async function handleAddCollection(newCollectionData) {
     try {
       const response = await fetch("/api/collections", {
@@ -44,6 +41,45 @@ export default function HomePage() {
     }
   }
 
+  async function handleUpdateCollection(updatedCollection) {
+    try {
+      const response = await fetch(
+        `/api/collections/${updatedCollection._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ title: updatedCollection.title }),
+        }
+      );
+
+      if (response.ok) {
+        mutate();
+      } else {
+        alert("Error updating collection");
+      }
+    } catch (error) {
+      alert("Error updating collection");
+    }
+  }
+
+  async function handleDeleteCollection(collectionId) {
+    try {
+      const response = await fetch(`/api/collections/${collectionId}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        mutate();
+      } else {
+        alert("Error deleting collection");
+      }
+    } catch (error) {
+      alert("Error deleting collection");
+    }
+  }
+
   if (isLoading) return <p>Loading activities…</p>;
   if (error) return <p>Error loading activities.</p>;
   if (!collections) return <p>No activities found.</p>;
@@ -53,6 +89,8 @@ export default function HomePage() {
       <CollectionList
         collections={collections}
         onAddCollection={handleAddCollection}
+        onUpdateCollection={handleUpdateCollection}
+        onDeleteCollection={handleDeleteCollection}
       />
     </>
   );

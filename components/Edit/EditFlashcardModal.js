@@ -65,7 +65,7 @@ export default function EditFlashcardModal({
       <ModalContent>
         <ModalHeader>
           <h2>Edit Flashcard</h2>
-          <CloseButton onClick={handleClose}>&times;</CloseButton>
+          <CloseButton onClick={handleClose}></CloseButton>
         </ModalHeader>
 
         <FormGroup>
@@ -108,10 +108,10 @@ export default function EditFlashcardModal({
 
         <ButtonGroup>
           <DeleteButton onClick={handleDelete}>Delete</DeleteButton>
-          <div>
+          <section>
             <CancelButton onClick={handleClose}>Quit</CancelButton>
             <SaveButton onClick={handleSave}>Save</SaveButton>
-          </div>
+          </section>
         </ButtonGroup>
       </ModalContent>
     </ModalOverlay>

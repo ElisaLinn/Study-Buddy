@@ -10,7 +10,12 @@ import {
 import CollectionForm from "./CollectionForm/CollectionForm";
 import { Text } from "../StylingGeneral/StylingGeneral";
 
-export default function CollectionList({ collections, onAddCollection }) {
+export default function CollectionList({ 
+  collections, 
+  onAddCollection, 
+  onUpdateCollection,
+  onDeleteCollection 
+}) {
   const [isEditing, setIsEditing] = useState(false);
 
   function handleEditing() {
@@ -54,6 +59,8 @@ export default function CollectionList({ collections, onAddCollection }) {
               title={collection.title}
               flashcardCount={collection.flashcardCount}
               correctCount={collection.correctCount}
+              onUpdateCollection={onUpdateCollection}
+              onDeleteCollection={onDeleteCollection}
             />
           </li>
         ))}

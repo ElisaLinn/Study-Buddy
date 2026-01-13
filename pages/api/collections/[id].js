@@ -67,12 +67,38 @@ export default async function handler(request, response) {
     return;
   }
 
+  if (request.method === "PATCH") {
+    try {
+      const { title } = request.body;
+      
+      if (!title || !title ) {
+        return response.status(400).json({ message: "Title is required" });
+      }
+
+      const updatedCollection = await Collection.findByIdAndUpdate(
+        id, 
+        { title: title }, 
+        { new: true }
+      );
+      
+      if (!updatedCollection) {
+        return response.status(404).json({ message: "Collection not found" });
+      }
+      
+      response.status(200).json(updatedCollection);
+    } catch (error) {
+      console.error("Error updating collection:", error);
+      response.status(400).json({ message: "Error updating collection" });
+    }
+    return;
+  }
+
   if (request.method === "DELETE") {
     try {
-      // First delete all flashcards in this collection
+    
       await Flashcard.deleteMany({ collectionId: id });
       
-      // Then delete the collection itself
+    
       const deletedCollection = await Collection.findByIdAndDelete(id);
       
       if (!deletedCollection) {

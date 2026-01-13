@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useSWR from "swr";
-import EditFlashcardModal from "../../EditFlashcardModal/EditFlashcardModal";
+import EditFlashcardModal from "../../Edit/EditFlashcardModal";
 import {
   AnswerButton,
   FlashcardWrapper,
@@ -20,7 +20,7 @@ import {
   SubtitleWrapper,
   SubtitleCard,
 } from "./StyledFlippableFlashcard";
-import { Pencil } from "lucide-react";
+import { Ellipsis, Pencil } from "lucide-react";
 import { Subtitle, Text } from "@/components/StylingGeneral/StylingGeneral";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -111,7 +111,7 @@ export default function FlippableFlashcard({
               <AnswerButton onClick={handleFlip}>Show Answer</AnswerButton>
             </ButtonContainer>
             <EditButton onClick={handleEdit}>
-              <Pencil />
+              <Ellipsis />
             </EditButton>
             <TagWrapper>
               {collection && <CollectionTag>{collection.title}</CollectionTag>}
@@ -134,7 +134,7 @@ export default function FlippableFlashcard({
               <CorrectButton onClick={handleMarkCorrect}>Correct</CorrectButton>
             </ButtonContainer>
             <EditButton onClick={handleEdit}>
-              <Pencil />
+              <Ellipsis />
             </EditButton>
             <TagWrapper>
               {collection && <CollectionTag>{collection.title}</CollectionTag>}
