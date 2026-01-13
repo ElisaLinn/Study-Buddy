@@ -1,10 +1,13 @@
 import useSWR from "swr";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import CollectionDetails from "@/components/DetailsPage/DetailsPage";
+import SuccessMessage from "@/components/SuccessMessage/SuccessMessage";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function CollectionDetailsPage() {
+  const [successMessage, setSuccessMessage] = useState("");
   const router = useRouter();
   const { id } = router.query;
 
@@ -64,6 +67,7 @@ export default function CollectionDetailsPage() {
 
       if (response.ok) {
         mutate();
+        setSuccessMessage("Flashcard successfully created!");
         return;
       } else {
         throw new Error("Failed to create flashcard");
@@ -81,6 +85,7 @@ export default function CollectionDetailsPage() {
 
       if (response.ok) {
         mutate();
+        setSuccessMessage("Flashcard successfully deleted!");
       } else {
         alert("Error deleting flashcard");
       }
@@ -111,6 +116,11 @@ export default function CollectionDetailsPage() {
 
   return (
     <>
+      <SuccessMessage
+        message={successMessage}
+        show={!!successMessage}
+        onClose={() => setSuccessMessage("")}
+      />
       <CollectionDetails
         collection={collection}
         onDelete={handleDelete}

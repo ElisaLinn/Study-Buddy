@@ -1,10 +1,14 @@
 import CollectionList from "@/components/CollectionList/CollectionList";
 import { Text } from "@/components/StylingGeneral/StylingGeneral";
+import { useState } from "react";
 import useSWR from "swr";
+import SuccessMessage from "@/components/SuccessMessage/SuccessMessage";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function HomePage() {
+  const [successMessage, setSuccessMessage] = useState("");
+  
   const {
     data: collections,
     isLoading,
@@ -33,6 +37,7 @@ export default function HomePage() {
 
       if (response.ok) {
         mutate();
+        setSuccessMessage("Collection successfully created!");
       } else {
         alert("Error creating collection");
       }
@@ -56,6 +61,7 @@ export default function HomePage() {
 
       if (response.ok) {
         mutate();
+        setSuccessMessage("Collection successfully updated!");
       } else {
         alert("Error updating collection");
       }
@@ -72,6 +78,7 @@ export default function HomePage() {
 
       if (response.ok) {
         mutate();
+        setSuccessMessage("Collection successfully deleted!");
       } else {
         alert("Error deleting collection");
       }
@@ -86,6 +93,11 @@ export default function HomePage() {
 
   return (
     <>
+      <SuccessMessage
+        message={successMessage}
+        show={!!successMessage}
+        onClose={() => setSuccessMessage("")}
+      />
       <CollectionList
         collections={collections}
         onAddCollection={handleAddCollection}

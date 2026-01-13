@@ -1,9 +1,13 @@
 import useSWR from "swr";
+import { useState } from "react";
 import AllFlashcardsPage from "@/components/FlashcardsPage/FlashcardsPage";
+import SuccessMessage from "@/components/SuccessMessage/SuccessMessage";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function FlashcardsPage() {
+  const [successMessage, setSuccessMessage] = useState("");
+  
   const {
     data: flashcards,
     isLoading,
@@ -39,6 +43,7 @@ export default function FlashcardsPage() {
 
       if (response.ok) {
         mutate();
+        setSuccessMessage("Flashcard successfully deleted!");
       } else {
         alert("Error deleting flashcard");
       }
@@ -48,13 +53,20 @@ export default function FlashcardsPage() {
   }
 
   return (
-    <AllFlashcardsPage 
-      flashcards={flashcards}
-      isLoading={isLoading}
-      error={error}
-      onDeleteFlashcard={handleDeleteFlashcard}
-      onMarkCorrect={handleMarkCorrect}
-      onUpdate={mutate}
-    />
+    <>
+      <SuccessMessage
+        message={successMessage}
+        show={!!successMessage}
+        onClose={() => setSuccessMessage("")}
+      />
+      <AllFlashcardsPage 
+        flashcards={flashcards}
+        isLoading={isLoading}
+        error={error}
+        onDeleteFlashcard={handleDeleteFlashcard}
+        onMarkCorrect={handleMarkCorrect}
+        onUpdate={mutate}
+      />
+    </>
   );
 }

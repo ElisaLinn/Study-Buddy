@@ -1,10 +1,13 @@
 import useSWR from "swr";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import Archive from "@/components/Archive/Archive";
+import SuccessMessage from "@/components/SuccessMessage/SuccessMessage";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function ArchivePage() {
+  const [successMessage, setSuccessMessage] = useState("");
   const router = useRouter();
   const { collection } = router.query;
 
@@ -65,6 +68,7 @@ export default function ArchivePage() {
         }
       }
       mutate();
+      setSuccessMessage("All flashcards moved back successfully!");
     } catch (error) {
       alert("Error resetting flashcards");
     }
@@ -95,13 +99,20 @@ export default function ArchivePage() {
   }
 
   return (
-    <Archive
-      archivedFlashcards={archivedFlashcards}
-      currentCollection={currentCollection}
-      onDelete={handleDeleteFlashcard}
-      onMarkCorrect={handleMarkCorrect}
-      onUpdate={mutate}
-      onResetAll={handleResetAllFlashcards}
-    />
+    <>
+      <SuccessMessage
+        message={successMessage}
+        show={!!successMessage}
+        onClose={() => setSuccessMessage("")}
+      />
+      <Archive
+        archivedFlashcards={archivedFlashcards}
+        currentCollection={currentCollection}
+        onDelete={handleDeleteFlashcard}
+        onMarkCorrect={handleMarkCorrect}
+        onUpdate={mutate}
+        onResetAll={handleResetAllFlashcards}
+      />
+    </>
   );
 }
