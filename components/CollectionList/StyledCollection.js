@@ -120,3 +120,24 @@ export const LinkStyled = styled(Link)`
 color: var(--input);
 text-decoration: none;
 `;
+
+export const CollectionEditButton = styled.button`
+  padding: 8px 16px;
+  background-color: transparent;
+  color: var(--card);
+  border: none;
+  border-radius: 4px;
+  margin: 10px 0;
+  cursor: pointer;
+  font-size: 14px;
+  position: absolute;
+  top: -20px;
+  right: -20px;
+
+  &:hover {
+    color: var(--alert);
+  }
+`;
+
+export const Section = styled.section`
+position:relative`;
