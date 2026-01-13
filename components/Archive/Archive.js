@@ -47,6 +47,7 @@ export default function ArchivePage({
               onDelete={onDelete}
               onMarkCorrect={onMarkCorrect}
               onUpdate={onUpdate}
+              showRemoveButton={true}
             />
           ))}
         </div>
