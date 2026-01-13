@@ -1,7 +1,7 @@
 import Navigation from "@/components/Navigation/Navigation";
 import GlobalStyle from "../styles";
 import { SWRConfig } from "swr";
-import Header from "@/components/DetailsPage/Header/Header";
+import Header from "@/components/Header/Header";
 
 const fetcher = (url) => fetch(url).then((response) => response.json());
 

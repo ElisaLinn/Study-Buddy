@@ -19,8 +19,9 @@ import {
   AnswerText,
   SubtitleWrapper,
   SubtitleCard,
+  RemoveCardButton,
 } from "./StyledFlippableFlashcard";
-import { Ellipsis, Pencil } from "lucide-react";
+import { Ellipsis, Pencil, X } from "lucide-react";
 import { Subtitle, Text } from "@/components/StylingGeneral/StylingGeneral";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -105,6 +106,9 @@ export default function FlippableFlashcard({
             {flashcard.isCorrect && <CorrectBadge>✓</CorrectBadge>}
             <SubtitleWrapper>
             <SubtitleCard>Question:</SubtitleCard>
+             <RemoveCardButton onClick={handleMarkIncorrect}>
+              <X/>
+              </RemoveCardButton>
             </SubtitleWrapper>
             <QuestionText>{flashcard.question}</QuestionText>
             <ButtonContainer>

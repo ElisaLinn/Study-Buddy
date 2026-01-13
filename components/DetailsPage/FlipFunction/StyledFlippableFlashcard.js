@@ -210,3 +210,33 @@ export const SubtitleCard = styled.h2`
   margin: 0;
   color: var(--background);
 `;
+
+export const RemoveCardButton = styled.button`
+position:absolute;
+top: 15px;
+left:15px;
+background-color: transparent;
+border: none;
+ svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  svg path {
+    stroke: var(--accent-foreground);
+   background-color: transparent;
+    transition: fill 0.2s ease, stroke 0.2s ease;
+  }
+
+ 
+
+  &:hover svg path {
+    stroke: var(--alert);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+`
