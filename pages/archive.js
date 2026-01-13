@@ -25,7 +25,7 @@ export default function ArchivePage() {
       (flashcard) => flashcard.collectionId === collection
     );
   }
-  
+
   const currentCollection = collections?.find((col) => col._id === collection);
 
   async function handleMarkCorrect(flashcardId, isCorrect) {
@@ -45,6 +45,28 @@ export default function ArchivePage() {
       }
     } catch (error) {
       alert("Error updating flashcard");
+    }
+  }
+
+  async function handleResetAllFlashcards() {
+    try {
+      for (const flashcard of archivedFlashcards) {
+        const response = await fetch(`/api/flashcards/${flashcard._id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ isCorrect: false }),
+        });
+
+        if (!response.ok) {
+          alert("Error resetting flashcard");
+          return;
+        }
+      }
+      mutate();
+    } catch (error) {
+      alert("Error resetting flashcards");
     }
   }
 
@@ -79,6 +101,7 @@ export default function ArchivePage() {
       onDelete={handleDeleteFlashcard}
       onMarkCorrect={handleMarkCorrect}
       onUpdate={mutate}
+      onResetAll={handleResetAllFlashcards}
     />
   );
 }

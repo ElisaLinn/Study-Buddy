@@ -1,7 +1,7 @@
 import { BackLink } from "@/components/StylingGeneral/StylingGeneral";
 import FlippableFlashcard from "../DetailsPage/FlipFunction/FlippableFlashcard";
-import { LucideArrowBigLeft } from "lucide-react";
-
+import { BrushCleaning, LucideArrowBigLeft } from "lucide-react";
+import { ResetAllButton } from "./StyledArchive";
 import { Text } from "../StylingGeneral/StylingGeneral";
 
 export default function ArchivePage({
@@ -10,6 +10,7 @@ export default function ArchivePage({
   onDelete,
   onMarkCorrect,
   onUpdate,
+  onResetAll,
 }) {
   return (
     <div>
@@ -22,7 +23,14 @@ export default function ArchivePage({
           </Text>
         </>
       ) : (
-        <Text>You marked {archivedFlashcards.length} Flashcards as correct</Text>
+        <>
+          <Text>You marked {archivedFlashcards.length} Flashcards as correct</Text>
+          {archivedFlashcards.length > 0 && (
+            <ResetAllButton onClick={onResetAll}><BrushCleaning/>
+              Remove All Back to Flashcards
+            </ResetAllButton>
+          )}
+        </>
       )}
       {archivedFlashcards.length === 0 ? (
         <Text>
