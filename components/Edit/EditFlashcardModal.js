@@ -1,19 +1,35 @@
 import { useState } from "react";
 import useSWR from "swr";
 import {
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  CloseButton,
-  FormGroup,
-  Label,
-  Textarea,
+
+
+
+
+  
+
   Select,
-  ButtonGroup,
+
   SaveButton,
   CancelButton,
-  DeleteButton,
+ 
 } from "./StyledEditFlashcardModal";
+
+import { 
+  ModalWrapper,
+  ModalBackdrop, 
+  ModalContent, 
+  ModalHeader, 
+  ModalBody, 
+  ModalFooter,
+  CloseButton,
+  Form,
+  Input,
+  Button,
+  ButtonGroup,
+  DeleteSection
+} from "./EditCollectionModal/StyledEditCollectionModal";
+import { Trash2, X } from "lucide-react";
+import { DeleteButtonStyled } from "../DeleteButton/StyledDeleteButton";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -29,6 +45,7 @@ export default function EditFlashcardModal({
   const [selectedCollectionId, setSelectedCollectionId] = useState(
     flashcard?.collectionId || ""
   );
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const { data: collections } = useSWR("/api/collections", fetcher);
 
@@ -52,6 +69,14 @@ export default function EditFlashcardModal({
     onDelete(flashcard._id);
     onClose();
   };
+  
+  const handleDeleteClick = () => {
+    setShowDeleteConfirm(true);
+  };
+  
+  const handleCancelDelete = () => {
+    setShowDeleteConfirm(false);
+  };
 
   const handleClose = () => {
     setQuestion(flashcard.question);
@@ -61,37 +86,44 @@ export default function EditFlashcardModal({
   };
 
   return (
-    <ModalOverlay>
+    <ModalWrapper>
       <ModalContent>
         <ModalHeader>
           <h2>Edit Flashcard</h2>
-          <CloseButton onClick={handleClose}></CloseButton>
+          <CloseButton onClick={handleClose}>
+            <X/>
+          </CloseButton>
         </ModalHeader>
 
-        <FormGroup>
-          <Label htmlFor="question">Question:</Label>
-          <Textarea
+        <ModalBody>
+          <Form>
+          <label htmlFor="question">Question:</label>
+          <Input
             id="question"
             value={question}
             onChange={(event) => setQuestion(event.target.value)}
             rows={3}
             placeholder="What´s your Question"
           />
-        </FormGroup>
+          </Form>
+        </ModalBody>
 
-        <FormGroup>
-          <Label htmlFor="answer">Answer:</Label>
-          <Textarea
+        <ModalBody>
+           <Form>
+          <label htmlFor="answer">Answer:</label>
+          <Input
             id="answer"
             value={answer}
             onChange={(event) => setAnswer(event.target.value)}
             rows={4}
             placeholder="What´s your Answer"
           />
-        </FormGroup>
+          </Form>
+        </ModalBody>
 
-        <FormGroup>
-          <Label htmlFor="collection">Collection:</Label>
+        <ModalBody>
+           <Form>
+          <label htmlFor="collection">Collection:</label>
           <Select
             id="collection"
             value={selectedCollectionId}
@@ -104,16 +136,46 @@ export default function EditFlashcardModal({
               </option>
             ))}
           </Select>
-        </FormGroup>
+          </Form>
+        </ModalBody>
+       
+        <section>
+        
+          {showDeleteConfirm ? (
+              <ModalBody>
+            <DeleteSection>
+              <p>
+                Delete this flashcard?
+              </p>
+              <section>
+                <DeleteButtonStyled onClick={handleCancelDelete}>Cancel</DeleteButtonStyled>
+                <DeleteButtonStyled onClick={handleDelete}>Delete</DeleteButtonStyled>
+              </section>
+             
+            </DeleteSection>
+           </ModalBody>
+           
+          ) : (
+            <>
+             <ModalBody>
+            <DeleteSection>
+               <h3>Danger Zone</h3>
+             <p>The Flashcard will not appear again</p>
+                         
+              <DeleteButtonStyled onClick={handleDeleteClick}><Trash2/></DeleteButtonStyled>
+              </DeleteSection>
+              </ModalBody>
+              <ModalFooter>
+              <ButtonGroup>
+                <CancelButton onClick={handleClose}>Quit</CancelButton>
+                <SaveButton onClick={handleSave}>Save</SaveButton>
+              </ButtonGroup>
+              </ModalFooter>
+            </>
+          )}
 
-        <ButtonGroup>
-          <DeleteButton onClick={handleDelete}>Delete</DeleteButton>
-          <section>
-            <CancelButton onClick={handleClose}>Quit</CancelButton>
-            <SaveButton onClick={handleSave}>Save</SaveButton>
-          </section>
-        </ButtonGroup>
+        </section>
       </ModalContent>
-    </ModalOverlay>
+    </ModalWrapper>
   );
 }
