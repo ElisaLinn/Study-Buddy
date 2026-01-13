@@ -8,6 +8,28 @@ export const FlashcardWrapper = styled.div`
   width: 95%;
   max-width: 45rem;
   height: 20rem;
+  
+  ${(props) => props.isAnimating && `
+    animation: flashGreenAndSlide 0.6s ease-out ;
+  `}
+  
+  @keyframes flashGreenAndSlide {
+    0% {
+      filter: brightness(1);
+      transform: translateX(0);
+      opacity: 1;
+    }
+    20% {
+      filter: brightness(1.5) hue-rotate(90deg);
+    }
+    40% {
+      filter: brightness(1);
+    }
+    100% {
+      transform: translateX(-150%);
+      opacity: 0;
+    }
+  }
 `;
 
 

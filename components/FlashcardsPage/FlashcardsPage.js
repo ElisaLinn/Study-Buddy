@@ -50,6 +50,7 @@ export default function AllFlashcardsPage({
             onDelete={onDeleteFlashcard}
             onMarkCorrect={onMarkCorrect}
             onUpdate={onUpdate}
+            showCorrectAnimation={true}
           />
         ))}
       </div>
