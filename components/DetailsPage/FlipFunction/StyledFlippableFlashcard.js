@@ -140,18 +140,18 @@ export const CorrectBadge = styled.div`
 export const EditButton = styled.button`
   padding: 8px 16px;
   background-color: transparent;
-  color: var(--accent);
+  color: var(--card);
   border: none;
   border-radius: 4px;
   margin: 10px 0;
   cursor: pointer;
   font-size: 14px;
   position: absolute;
-  top: -10px;
-  right:10px;
+  top: 15px;
+  right:15px;
 
   &:hover {
-    color: #0056b3;
+      color: var(--accent-foreground);;
   }
 `;
 
