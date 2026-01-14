@@ -37,6 +37,7 @@ export default function FlippableFlashcard({
   const [isFlipped, setIsFlipped] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isAnimatingArchive, setIsAnimatingArchive] = useState(false);
 
   const { data: collections } = useSWR("/api/collections", fetcher);
 
@@ -106,20 +107,36 @@ export default function FlippableFlashcard({
   }
 
   function handleMarkIncorrect() {
-    if (onMarkCorrect) {
-      onMarkCorrect(flashcard._id, false)
-        .then(() => {
-          setIsFlipped(false);
-        })
-        .catch((error) => {
-          console.error("Error marking as incorrect:", error);
-        });
+    if (showRemoveButton) {
+      setIsAnimatingArchive(true);
+      setTimeout(() => {
+        if (onMarkCorrect) {
+          onMarkCorrect(flashcard._id, false)
+            .then(() => {
+              setIsFlipped(false);
+            })
+            .catch((error) => {
+              console.error("Error marking as incorrect:", error);
+              setIsAnimatingArchive(false);
+            });
+        }
+      }, 600);
+    } else {
+      if (onMarkCorrect) {
+        onMarkCorrect(flashcard._id, false)
+          .then(() => {
+            setIsFlipped(false);
+          })
+          .catch((error) => {
+            console.error("Error marking as incorrect:", error);
+          });
+      }
     }
   }
 
   return (
     <>
-      <FlashcardWrapper isFlipped={isFlipped} isAnimating={isAnimating}>
+      <FlashcardWrapper isFlipped={isFlipped} isAnimating={isAnimating} isAnimatingArchive={isAnimatingArchive}>
         <FlipContainer isFlipped={isFlipped} isCorrect={flashcard.isCorrect}>
           <FlashcardSide className="front" isCorrect={flashcard.isCorrect}>
             {flashcard.isCorrect && <CorrectBadge>✓</CorrectBadge>}

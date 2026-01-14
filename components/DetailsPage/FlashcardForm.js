@@ -1,8 +1,21 @@
 import { useState } from "react";
+import useSWR from "swr";
+import SuccessMessage from "../SuccessMessage/SuccessMessage";
 
-export default function FlashcardForm({ onSubmit, buttonText = "Submit" }) {
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
+export default function FlashcardForm({
+  onSubmit,
+  buttonText = "Submit",
+  defaultCollectionId = "",
+  showCollectionSelect = false,
+}) {
   const [submitError, setSubmitError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [selectedCollectionId, setSelectedCollectionId] =
+    useState(defaultCollectionId);
+
+  const { data: collections } = useSWR("/api/collections", fetcher);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -10,12 +23,18 @@ export default function FlashcardForm({ onSubmit, buttonText = "Submit" }) {
     setSubmitError("");
     setSuccessMessage("");
 
+    if (showCollectionSelect && !selectedCollectionId) {
+      setSubmitError("Please select a collection.");
+      return;
+    }
+
     const formData = new FormData(event.target);
     const flashcardData = Object.fromEntries(formData);
 
     const cleanedData = {
       question: flashcardData.question,
       answer: flashcardData.answer,
+      ...(showCollectionSelect ? { collectionId: selectedCollectionId } : {}),
     };
 
     try {
@@ -23,6 +42,7 @@ export default function FlashcardForm({ onSubmit, buttonText = "Submit" }) {
         await onSubmit(cleanedData);
         setSuccessMessage("A new flashcard has been created!");
         event.target.reset();
+        setSelectedCollectionId(defaultCollectionId);
       }
     } catch (error) {
       console.error("Error creating collection:", error);
@@ -31,8 +51,16 @@ export default function FlashcardForm({ onSubmit, buttonText = "Submit" }) {
   }
   return (
     <>
-      {submitError && <p style={{ color: "red" }}>{submitError}</p>}
-      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+      {submitError && <p>{submitError}</p>}
+      {successMessage && (
+        <SuccessMessage
+          message={successMessage}
+          show={!!successMessage}
+          onClose={() => setSuccessMessage("")}
+        >
+          {successMessage}
+        </SuccessMessage>
+      )}
 
       <form onSubmit={handleSubmit}>
         <label htmlFor="question">Question</label>
@@ -51,6 +79,24 @@ export default function FlashcardForm({ onSubmit, buttonText = "Submit" }) {
           placeholder="Type in your answer"
           required
         />
+        {showCollectionSelect && (
+          <>
+            <label htmlFor="collection">Collection</label>
+            <select
+              id="collection"
+              value={selectedCollectionId}
+              onChange={(event) => setSelectedCollectionId(event.target.value)}
+              required
+            >
+              <option value="">Choose a collection...</option>
+              {collections?.map((collection) => (
+                <option key={collection._id} value={collection._id}>
+                  {collection.title}
+                </option>
+              ))}
+            </select>
+          </>
+        )}
         <button type="submit">{buttonText}</button>
       </form>
     </>

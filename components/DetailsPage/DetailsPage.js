@@ -17,8 +17,7 @@ export default function CollectionDetails({
   onUpdate,
 }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [editingFlashcard, setEditingFlashcard] = useState(null);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  
 
   if (!collection) {
     return <p>No collection data available</p>;
@@ -38,38 +37,12 @@ export default function CollectionDetails({
     setIsEditing(false);
   }
 
-  function handleEditFlashcard(flashcard) {
-    setEditingFlashcard(flashcard);
-    setIsEditModalOpen(true);
-  }
-
-  async function handleUpdateFlashcard(id, updatedData) {
-    try {
-      const response = await fetch(`/api/flashcards/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to update flashcard");
-      }
-
-      if (onUpdate) {
-        onUpdate();
-      }
-    } catch (error) {
-      console.error("Error updating flashcard:", error);
-      throw error;
-    }
-  }
+  
 
   if (isEditing) {
     return (
       <div>
-        <FlashcardForm onSubmit={handleSubmit} buttonText="Create Collection" />
+        <FlashcardForm onSubmit={handleSubmit} buttonText="Create Flashcard" />
         <button onClick={handleCancel}>Cancel</button>
       </div>
     );
