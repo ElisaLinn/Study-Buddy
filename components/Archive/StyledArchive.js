@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import Link from "next/link";
 
+export const ResetAllButtonWrapper = styled.section`
+display: flex;
+justify-content: center;
+`;
+
 export const ResetAllButton = styled.button`
   background-color: var(--alert);
   color: white;
@@ -8,9 +13,13 @@ export const ResetAllButton = styled.button`
   padding: 12px 24px;
   border-radius: 25px;
   font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
   font-weight: 600;
   cursor: pointer;
-  margin: 20px 0;
   transition: all 0.2s ease;
 
   &:hover {

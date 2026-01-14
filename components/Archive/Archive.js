@@ -26,9 +26,12 @@ export default function ArchivePage({
         <>
           <Text>You marked {archivedFlashcards.length} Flashcards as correct</Text>
           {archivedFlashcards.length > 0 && (
-            <ResetAllButton onClick={onResetAll}><BrushCleaning/>
-              Remove All Back to Flashcards
-            </ResetAllButton>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <ResetAllButton onClick={onResetAll}>
+                <BrushCleaning/>
+                Remove All Back to Flashcards
+              </ResetAllButton>
+            </div>
           )}
         </>
       )}
