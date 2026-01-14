@@ -7,7 +7,9 @@ export const FlashcardWrapper = styled.div`
   min-height: 15rem;
   width: 95%;
   max-width: 45rem;
-  height: 20rem;
+  height: 21rem;
+
+ 
 
   ${(props) =>
     props.isAnimating &&
@@ -66,12 +68,17 @@ export const FlashcardWrapper = styled.div`
 export const FlipContainer = styled.div`
   width: 100%;
   height: 100%;
+  box-shadow:var(--box-shadow);
   background-color: ${(props) =>
     props.isCorrect
       ? "var(--card-foreground-correct)"
       : "var(--card-foreground)"};
   border: ${(props) =>
-    props.isCorrect ? "5px solid #28a745" : "5px solid var(--accent)"};
+    props.isCorrect 
+      ? "5px solid #28a745" 
+      : props.isFlipped 
+        ? "5px solid var(--accent-foreground)" 
+        : "5px solid var(--accent)"};
   border-radius: 25px;
   position: relative;
   transition: transform 0.6s;
@@ -79,6 +86,7 @@ export const FlipContainer = styled.div`
   transform: ${(props) =>
     props.isFlipped ? "rotateY(180deg)" : "rotateY(0deg)"};
 `;
+
 
 export const FlashcardSide = styled.div`
   position: absolute;
@@ -119,6 +127,16 @@ export const AnswerButton = styled.button`
   border-radius: 25px;
   border: 5px solid var(--terciary);
   margin-top: 15px;
+  box-shadow: var(--box-shadow-button);
+
+   &:hover  {
+    opacity: 80%;
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
 `;
 
 export const HideAnswerButton = styled.button`
@@ -128,6 +146,16 @@ export const HideAnswerButton = styled.button`
   border: 5px solid var(--terciary);
   color: white;
   margin-bottom: 10px;
+   box-shadow: var(--box-shadow-button);
+
+    &:hover  {
+     opacity: 80%;
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
 `;
 
 export const QuestionText = styled.p`
@@ -135,7 +163,6 @@ export const QuestionText = styled.p`
   font-size: 1rem;
   font-weight: 400;
   text-align: center;
-  margin-top: 1rem;
 `;
 
 export const AnswerText = styled.p`
@@ -143,23 +170,27 @@ export const AnswerText = styled.p`
   font-size: 1rem;
   font-weight: 400;
   text-align: center;
-  margin-top: 1rem;
+
+
 `;
 
 export const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  
 `;
 
 export const CorrectButton = styled.button`
   padding: 8px 16px;
-  background-color: #28a745;
+  background-color: var(--bookmark);
   color: white;
   border: none;
   border-radius: 25px;
   margin: 0 5px;
   cursor: pointer;
+
+  
 
   &:hover {
     background-color: #218838;
@@ -168,7 +199,7 @@ export const CorrectButton = styled.button`
 
 export const IncorrectButton = styled.button`
   padding: 8px 16px;
-  background-color: #dc3545;
+  background-color: var(--alert);
   color: white;
   border: none;
   border-radius: 25px;
@@ -186,6 +217,7 @@ export const CorrectBadge = styled.div`
   left: 10px;
   color: #28a745;
   font-size: 20px;
+
 `;
 
 export const EditButton = styled.button`
@@ -244,13 +276,13 @@ export const SubtitleWrapper = styled.section`
   gap: 0.5rem;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  padding: 0.4rem;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   width: 100%;
-  margin-bottom: 2 rem;
+  
 `;
 
 export const SubtitleCard = styled.h2`

@@ -14,14 +14,13 @@ import {
   CorrectBadge,
   EditButton,
   CollectionTag,
-  CollectionTagStyled,
   TagWrapper,
   AnswerText,
   SubtitleWrapper,
   SubtitleCard,
   RemoveCardButton,
 } from "./StyledFlippableFlashcard";
-import { Ellipsis,  X } from "lucide-react";
+import { Check,Ellipsis,  X } from "lucide-react";
 
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -171,9 +170,9 @@ export default function FlippableFlashcard({
             </ButtonContainer>
             <ButtonContainer>
               <IncorrectButton onClick={handleMarkIncorrect}>
-                Incorrect
+                <X/>
               </IncorrectButton>
-              <CorrectButton onClick={handleMarkCorrect}>Correct</CorrectButton>
+              <CorrectButton onClick={handleMarkCorrect}><Check/></CorrectButton>
             </ButtonContainer>
             <EditButton onClick={handleEdit}>
               <Ellipsis />

@@ -121,6 +121,11 @@ export default createGlobalStyle`
 --accent-foreground: #F4F1FF;
 --alert: #8E3A18;
 --alert-foreground: #F2B8A1;
+
+
+--box-shadow: 0 8px 6px rgba(0, 0, 0, 0.25);
+--box-shadow-button: 0 4px 6px rgba(0, 0, 0, 0.25);
+  
 }
  svg {
     width: 32px;
@@ -164,6 +169,7 @@ body {
   padding-top: 80px;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-family: system-ui;
+
   background: var(--background);
 
 }
