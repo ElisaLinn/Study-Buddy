@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ModalWrapper = styled.div`
+export const ModalWrapper = styled.main`
   position: fixed;
   top: 0;
   left: 0;
@@ -27,7 +27,7 @@ export const ModalBackdrop = styled.div`
   }
 `;
 
-export const ModalContent = styled.div`
+export const ModalContent = styled.section`
   background: var(--card);
   border-radius: 12px;
   width: 100%;
@@ -39,7 +39,7 @@ export const ModalContent = styled.div`
   z-index: 1;
 `;
 
-export const ModalHeader = styled.div`
+export const ModalHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -126,40 +126,63 @@ export const DeleteSection = styled.div`
   }
 `;
 
-export const ModalFooter = styled.div`
+export const ModalFooter = styled.footer`
   padding: 1.5rem;
   border-top: 1px solid var(--background-secondary);
 `;
 
-export const ButtonGroup = styled.div`
+export const ButtonGroup = styled.section`
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
 `;
 
-export const Button = styled.button`
-  padding: 0.75rem 1.5rem;
+export const SaveButton = styled.button`
+  padding: 12px 24px;
+  background-color: var(--terciary);
+  color: white;
   border: none;
-  border-radius: 8px;
-  font-weight: 500;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.2s;
 
-  ${props => props.$variant === 'primary' && `
-    background-color: var(--primary);
-    color: white;
+  &:hover {
+    background-color: var(--bookmark);
+    
+  }
+`;
 
-    &:hover {
-      background-color: var(--accent);
-    }
-  `}
+export const CancelButton = styled.button`
+  padding: 12px 24px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
 
-  ${props => props.$variant === 'secondary' && `
-    background-color: var(--background-secondary);
-    color: var(--card-foreground);
+  &:hover {
+    background-color: #545b62;
+  }
+`;
 
-    &:hover {
-      background-color: var(--terciary);
-    }
-  `}
+
+export const Select = styled.select`
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: white;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  }
 `;

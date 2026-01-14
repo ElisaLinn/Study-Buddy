@@ -9,9 +9,11 @@ import {
   CloseButton,
   Form,
   Input,
-  Button,
+ 
   ButtonGroup,
-  DeleteSection
+  DeleteSection,
+  CancelButton,
+  SaveButton
 } from "./StyledEditCollectionModal";
 import DeleteButton from "../../DeleteButton/DeleteButton";
 import { X } from "lucide-react";
@@ -49,7 +51,7 @@ export default function EditCollectionModal({
 
   return (
     <ModalWrapper>
-      <ModalBackdrop onClick={onClose} />
+      <ModalBackdrop/>
       <ModalContent>
         <ModalHeader>
           <h2>Edit Collection</h2>
@@ -79,12 +81,12 @@ export default function EditCollectionModal({
         </ModalBody>
         <ModalFooter>
           <ButtonGroup>
-            <Button type="button" $variant="secondary" onClick={handleCancel}>
+            <CancelButton onClick={handleCancel}>
               Cancel
-            </Button>
-            <Button type="button" $variant="primary" onClick={handleSubmit}>
+            </CancelButton>
+            <SaveButton  onClick={handleSubmit}>
               Save Changes
-            </Button>
+            </SaveButton>
           </ButtonGroup>
         </ModalFooter>
       </ModalContent>

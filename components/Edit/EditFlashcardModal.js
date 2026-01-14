@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useSWR from "swr";
-import { Select, SaveButton, CancelButton } from "./StyledEditFlashcardModal";
+
 
 import {
   ModalWrapper,
@@ -13,10 +13,13 @@ import {
   Input,
   ButtonGroup,
   DeleteSection,
+  ModalBackdrop,
+  Select,
+  SaveButton, CancelButton 
 } from "./EditCollectionModal/StyledEditCollectionModal";
 import { Trash2, X } from "lucide-react";
 import { DeleteButtonStyled } from "../DeleteButton/StyledDeleteButton";
-import SuccessMessage from "../SuccessMessage/SuccessMessage";
+
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -74,7 +77,9 @@ export default function EditFlashcardModal({
 
   return (
     <ModalWrapper>
+        <ModalBackdrop/>
       <ModalContent>
+    
         <ModalHeader>
           <h2>Edit Flashcard</h2>
           <CloseButton onClick={handleClose}>
