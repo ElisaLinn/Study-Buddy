@@ -237,7 +237,7 @@ export const EditButton = styled.button`
   cursor: pointer;
   font-size: 14px;
   position: absolute;
-  top: 15px;
+  top: 5px;
   right: 15px;
 
   &:hover {

@@ -37,6 +37,12 @@ export const ModalContent = styled.section`
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   position: relative;
   z-index: 1;
+
+  @media (max-width: 768px) {
+    max-height: 85vh;
+    border-radius: 8px;
+    margin: 0.5rem;
+  }
 `;
 
 export const ModalHeader = styled.header`
@@ -46,12 +52,19 @@ export const ModalHeader = styled.header`
   padding: 1.5rem;
   border-bottom: 1px solid var(--background-secondary);
 
+  
+
   h2 {
     margin: 0;
     color: var(--card-foreground);
     font-size: 1.25rem;
     font-weight: 600;
-  }
+   @media (max-width: 768px) {
+  
+     font-size: 1rem;
+    font-weight: 500;
+  
+  }}
 `;
 
 export const CloseButton = styled.button`
@@ -72,11 +85,15 @@ export const CloseButton = styled.button`
 `;
 
 export const ModalBody = styled.div`
-  padding: 1.5rem;
+  padding: 0.2rem;
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
 `;
 
 export const Form = styled.form`
-  margin-bottom: 2rem;
+  margin-bottom: 0.2rem;
 
   label {
     display: block;
@@ -93,7 +110,7 @@ export const Input = styled.input`
   border-radius: 8px;
   background-color: var(--background-foreground);
   color: var(--card-foreground);
-  font-size: 1rem;
+  font-size: 1.2rem;
 
   &:focus {
     outline: none;
@@ -139,7 +156,7 @@ export const ButtonGroup = styled.section`
 
 export const SaveButton = styled.button`
   padding: 12px 24px;
-  background-color: var(--terciary);
+  background-color: var(--primary);
   color: white;
   border: none;
   border-radius: 25px;
@@ -156,7 +173,7 @@ export const SaveButton = styled.button`
 
 export const CancelButton = styled.button`
   padding: 12px 24px;
-  background-color: var(--primary);
+  background-color: var(--terciary);
   color: white;
   border: none;
   border-radius: 25px;
@@ -179,10 +196,20 @@ export const Select = styled.select`
   font-size: 16px;
   background-color: white;
   box-sizing: border-box;
+  cursor: pointer;
+
+  option {
+    font-size: 16px;
+  }
 
   &:focus {
     outline: none;
     border-color: #007bff;
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  }
+  
+  @media (max-width: 768px) {
+    font-size: 16px;
+    padding: 14px;
   }
 `;

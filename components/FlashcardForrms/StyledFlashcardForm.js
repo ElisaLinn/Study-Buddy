@@ -93,15 +93,26 @@ export const CancelButtonStyled = styled.button`
 `;
 
 export const SelectCategory = styled.select`
-background-color: transparent; 
-border:none;
- background-color: var(--primary);
+  background-color: transparent; 
+  border: none;
+  background-color: var(--primary);
   color: var(--card-foreground-correct);
-  padding: 0.2rem 12px;
+  padding: 0.4rem 12px;
   border-radius: 15px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.5px;
-  
   z-index: 10;
+  cursor: pointer;
+  
+  option {
+    font-size: 16px;
+    background-color: var(--card);
+    color: var(--card-foreground);
+  }
+  
+  @media (max-width: 768px) {
+    font-size: 16px;
+    padding: 0.5rem 12px;
+  }
 `;
