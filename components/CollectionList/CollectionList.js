@@ -5,7 +5,6 @@ import {
   CollectionPageWrapper,
   CollectionsList,
   HeaderSection,
-  AddElementWrapper,
 } from "./StyledCollection";
 import CollectionForm from "./CollectionForm/CollectionForm";
 import { Text } from "../StylingGeneral/StylingGeneral";
@@ -37,8 +36,9 @@ export default function CollectionList({
         <CollectionForm
           onSubmit={handleSubmit}
           buttonText="Create Collection"
+          onCancel={handleCancel}
         />
-        <button onClick={handleCancel}>Cancel</button>
+      
       </CollectionPageWrapper>
     );
   }
