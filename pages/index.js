@@ -1,8 +1,9 @@
 import CollectionList from "@/components/CollectionList/CollectionList";
-import { Text } from "@/components/StylingGeneral/StylingGeneral";
 import { useState } from "react";
 import useSWR from "swr";
 import SuccessMessage from "@/components/Messages/SuccessMessage";
+import LoadingMessage from "@/components/Messages/LoadingMessage";
+
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -16,14 +17,7 @@ export default function HomePage() {
     mutate,
   } = useSWR("/api/collections", fetcher);
 
-  if (!collections || collections.length === 0) {
-    return (
-      <div>
-        <h1>All Flashcards</h1>
-        <p>No Flashcard found.</p>
-      </div>
-    );
-  }
+
 
   async function handleAddCollection(newCollectionData) {
     try {
@@ -87,9 +81,10 @@ export default function HomePage() {
     }
   }
 
-  if (isLoading) return <p>Loading activities…</p>;
-  if (error) return <p>Error loading activities.</p>;
-  if (!collections) return <p>No activities found.</p>;
+  if (isLoading)
+    return <LoadingMessage message="Loading collections..." show={true} />;
+  if (error) return <p>Error loading collections.</p>;
+  if (!collections) return <p>No collections found.</p>;
 
   return (
     <>

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import CollectionDetails from "@/components/DetailsPage/DetailsPage";
 import SuccessMessage from "@/components/Messages/SuccessMessage";
+import LoadingMessage from "@/components/Messages/LoadingMessage";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -19,11 +20,11 @@ export default function CollectionDetailsPage() {
   } = useSWR(id ? `/api/collections/${id}` : null, fetcher);
 
   if (!router.isReady) {
-    return <h1>Loading...</h1>;
+    return <LoadingMessage message="Loading collection..." show={true} />;
   }
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <LoadingMessage message="Loading collection details..." show={true} />;
   }
 
   if (error) {

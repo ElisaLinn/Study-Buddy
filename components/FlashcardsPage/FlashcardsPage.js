@@ -4,6 +4,7 @@ import FlippableFlashcard from "../DetailsPage/FlipFunction/FlippableFlashcard";
 import { Text } from "../StylingGeneral/StylingGeneral";
 import FlashcardForm from "../FlashcardForrms/FlashcardForm";
 import { Plus } from "lucide-react";
+import LoadingMessage from "../Messages/LoadingMessage";
 
 export default function AllFlashcardsPage({
   flashcards,
@@ -32,7 +33,7 @@ export default function AllFlashcardsPage({
   }
 
   if (isLoading) {
-    return <h1>Loading flashcards...</h1>;
+    return <LoadingMessage message="Loading flashcards..." show={true} />;
   }
 
   if (error) {

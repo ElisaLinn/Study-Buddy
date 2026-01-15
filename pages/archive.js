@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Archive from "@/components/Archive/Archive";
 import SuccessMessage from "@/components/Messages/SuccessMessage";
+import LoadingMessage from "@/components/Messages/LoadingMessage";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -91,7 +92,7 @@ export default function ArchivePage() {
   }
 
   if (isLoading) {
-    return <h1>Loading archive...</h1>;
+    return <LoadingMessage message="Loading archive..." show={true} />;
   }
 
   if (error) {

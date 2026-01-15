@@ -29,7 +29,14 @@ export default function CollectionList({
   function handleCancel() {
     setIsEditing(false);
   }
-
+if (!collections || collections.length === 0) {
+    return (
+      <Text>
+        <p>All Flashcards</p>
+        <p>No Collections found.</p>
+      </Text>
+    );
+  } 
   if (isEditing) {
     return (
       <CollectionPageWrapper>

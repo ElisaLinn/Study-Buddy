@@ -149,6 +149,7 @@ export const HideAnswerButton = styled.button`
   color: white;
   margin-bottom: 10px;
    box-shadow: var(--box-shadow-button);
+   cursor: pointer;
 
     &:hover  {
      opacity: 80%;
