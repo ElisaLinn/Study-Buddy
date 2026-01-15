@@ -1,13 +1,13 @@
 import useSWR from "swr";
 import { useState } from "react";
 import AllFlashcardsPage from "@/components/FlashcardsPage/FlashcardsPage";
-import SuccessMessage from "@/components/SuccessMessage/SuccessMessage";
+import SuccessMessage from "@/components/Messages/SuccessMessage";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function FlashcardsPage() {
   const [successMessage, setSuccessMessage] = useState("");
-  
+
   const {
     data: flashcards,
     isLoading,
@@ -59,7 +59,7 @@ export default function FlashcardsPage() {
         show={!!successMessage}
         onClose={() => setSuccessMessage("")}
       />
-      <AllFlashcardsPage 
+      <AllFlashcardsPage
         flashcards={flashcards}
         isLoading={isLoading}
         error={error}

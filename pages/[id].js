@@ -2,7 +2,7 @@ import useSWR from "swr";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import CollectionDetails from "@/components/DetailsPage/DetailsPage";
-import SuccessMessage from "@/components/SuccessMessage/SuccessMessage";
+import SuccessMessage from "@/components/Messages/SuccessMessage";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -105,7 +105,7 @@ export default function CollectionDetailsPage() {
       });
 
       if (response.ok) {
-        mutate(); 
+        mutate();
       } else {
         alert("Error updating flashcard");
       }

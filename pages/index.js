@@ -2,13 +2,13 @@ import CollectionList from "@/components/CollectionList/CollectionList";
 import { Text } from "@/components/StylingGeneral/StylingGeneral";
 import { useState } from "react";
 import useSWR from "swr";
-import SuccessMessage from "@/components/SuccessMessage/SuccessMessage";
+import SuccessMessage from "@/components/Messages/SuccessMessage";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function HomePage() {
   const [successMessage, setSuccessMessage] = useState("");
-  
+
   const {
     data: collections,
     isLoading,

@@ -2,7 +2,7 @@ import useSWR from "swr";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Archive from "@/components/Archive/Archive";
-import SuccessMessage from "@/components/SuccessMessage/SuccessMessage";
+import SuccessMessage from "@/components/Messages/SuccessMessage";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
