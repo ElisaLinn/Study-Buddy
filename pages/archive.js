@@ -5,8 +5,6 @@ import Archive from "@/components/Archive/Archive";
 import SuccessMessage from "@/components/Messages/SuccessMessage";
 import LoadingMessage from "@/components/Messages/LoadingMessage";
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
-
 export default function ArchivePage() {
   const [successMessage, setSuccessMessage] = useState("");
   const router = useRouter();
@@ -17,9 +15,9 @@ export default function ArchivePage() {
     isLoading,
     error,
     mutate,
-  } = useSWR("/api/flashcards", fetcher);
+  } = useSWR("/api/flashcards");
 
-  const { data: collections } = useSWR("/api/collections", fetcher);
+  const { data: collections } = useSWR("/api/collections");
 
   let archivedFlashcards =
     allFlashcards?.filter((flashcard) => flashcard.isCorrect) || [];

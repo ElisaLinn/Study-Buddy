@@ -18,13 +18,10 @@ import {
   SubmitButtonStyled,
 } from "../FlashcardForrms/StyledFlashcardForm";
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
-
 export default function FlashcardForm({
   onSubmit,
   defaultCollectionId = "",
   showCollectionSelect = false,
-  onCancel,
   handleCancel,
 }) {
   const [submitError, setSubmitError] = useState("");
@@ -32,7 +29,7 @@ export default function FlashcardForm({
   const [selectedCollectionId, setSelectedCollectionId] =
     useState(defaultCollectionId);
 
-  const { data: collections } = useSWR("/api/collections", fetcher);
+  const { data: collections } = useSWR("/api/collections");
 
   async function handleSubmit(event) {
     event.preventDefault();

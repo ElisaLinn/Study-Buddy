@@ -4,9 +4,6 @@ import useSWR from "swr";
 import SuccessMessage from "@/components/Messages/SuccessMessage";
 import LoadingMessage from "@/components/Messages/LoadingMessage";
 
-
-const fetcher = (url) => fetch(url).then((res) => res.json());
-
 export default function HomePage() {
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -15,7 +12,7 @@ export default function HomePage() {
     isLoading,
     error,
     mutate,
-  } = useSWR("/api/collections", fetcher);
+  } = useSWR("/api/collections");
 
 
 

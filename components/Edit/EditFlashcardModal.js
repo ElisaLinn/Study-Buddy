@@ -20,9 +20,6 @@ import {
 import { Trash2, X } from "lucide-react";
 import { DeleteButtonStyled } from "../DeleteButton/StyledDeleteButton";
 
-
-const fetcher = (url) => fetch(url).then((res) => res.json());
-
 export default function EditFlashcardModal({
   flashcard,
   isOpen,
@@ -37,7 +34,7 @@ export default function EditFlashcardModal({
   );
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
-  const { data: collections } = useSWR("/api/collections", fetcher);
+  const { data: collections } = useSWR("/api/collections");
 
   if (!isOpen || !flashcard) return null;
 

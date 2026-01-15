@@ -14,8 +14,8 @@ import {
 import FlashcardCounter from "./FlashcardCounter/FlashcardCounter";
 import CorrectFlashcardCounter from "./CorrectFlashcardCounter/CorrectFlashcardCounter";
 import EditCollectionModal from "../Edit/EditCollectionModal/EditCollectionModal";
-import { Book, Check, Edit2, Ellipsis } from "lucide-react";
-import { EditButton } from "../DetailsPage/FlipFunction/StyledFlippableFlashcard";
+import { Book, Check, Ellipsis } from "lucide-react";
+
 
 export default function CollectionCard({
   _id, 

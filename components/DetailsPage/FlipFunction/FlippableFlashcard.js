@@ -22,9 +22,6 @@ import {
 } from "./StyledFlippableFlashcard";
 import { Check,Ellipsis,  X } from "lucide-react";
 
-
-const fetcher = (url) => fetch(url).then((res) => res.json());
-
 export default function FlippableFlashcard({
   flashcard,
   onDelete,
@@ -38,7 +35,7 @@ export default function FlippableFlashcard({
   const [isAnimating, setIsAnimating] = useState(false);
   const [isAnimatingArchive, setIsAnimatingArchive] = useState(false);
 
-  const { data: collections } = useSWR("/api/collections", fetcher);
+  const { data: collections } = useSWR("/api/collections");
 
   const collection = collections?.find(
     (col) => col._id === flashcard.collectionId

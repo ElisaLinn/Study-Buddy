@@ -3,9 +3,6 @@ import { useState } from "react";
 import AllFlashcardsPage from "@/components/FlashcardsPage/FlashcardsPage";
 import SuccessMessage from "@/components/Messages/SuccessMessage";
 
-
-const fetcher = (url) => fetch(url).then((res) => res.json());
-
 export default function FlashcardsPage() {
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -14,7 +11,7 @@ export default function FlashcardsPage() {
     isLoading,
     error,
     mutate,
-  } = useSWR("/api/flashcards", fetcher);
+  } = useSWR("/api/flashcards");
 
   async function handleMarkCorrect(flashcardId, isCorrect) {
     try {

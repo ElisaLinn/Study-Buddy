@@ -39,8 +39,8 @@ export default function CollectionDetails({
   if (isEditing) {
     return (
       <div>
-        <FlashcardForm onSubmit={handleSubmit} buttonText="Create Flashcard" />
-        <button onClick={handleCancel}>Cancel</button>
+        <FlashcardForm onSubmit={handleSubmit} onCancel={handleCancel} />
+        
       </div>
     );
   }
@@ -65,9 +65,6 @@ export default function CollectionDetails({
         </div>
       )}
 
-      <DeleteButton onDelete={onDelete} id={collection?._id}>
-        <Trash2 />
-      </DeleteButton>
     </DetailsPageWrapper>
   );
 }

@@ -20,11 +20,8 @@ import {
   SubmitButtonStyled,
 } from "./StyledFlashcardForm";
 import ErrorMessage from "../Messages/ErrorMessage";
-import BackButton from "../DetailsPage/BackButton/BackButton";
 import { ArrowBigLeft } from "lucide-react";
 import { Text } from "../StylingGeneral/StylingGeneral";
-
-const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function FlashcardForm({
   onSubmit,
@@ -37,7 +34,7 @@ export default function FlashcardForm({
   const [selectedCollectionId, setSelectedCollectionId] =
     useState(defaultCollectionId);
 
-  const { data: collections } = useSWR("/api/collections", fetcher);
+  const { data: collections } = useSWR("/api/collections");
 
   async function handleSubmit(event) {
     event.preventDefault();

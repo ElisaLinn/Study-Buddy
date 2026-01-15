@@ -5,8 +5,6 @@ import CollectionDetails from "@/components/DetailsPage/DetailsPage";
 import SuccessMessage from "@/components/Messages/SuccessMessage";
 import LoadingMessage from "@/components/Messages/LoadingMessage";
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
-
 export default function CollectionDetailsPage() {
   const [successMessage, setSuccessMessage] = useState("");
   const router = useRouter();
@@ -17,7 +15,7 @@ export default function CollectionDetailsPage() {
     isLoading,
     error,
     mutate,
-  } = useSWR(id ? `/api/collections/${id}` : null, fetcher);
+  } = useSWR(id ? `/api/collections/${id}` : null);
 
   if (!router.isReady) {
     return <LoadingMessage message="Loading collection..." show={true} />;
