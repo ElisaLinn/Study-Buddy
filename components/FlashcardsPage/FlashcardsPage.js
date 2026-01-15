@@ -2,7 +2,7 @@ import { useState } from "react";
 import { AddButton } from "../AddElement.js/StyledAddElement";
 import FlippableFlashcard from "../DetailsPage/FlipFunction/FlippableFlashcard";
 import { Text } from "../StylingGeneral/StylingGeneral";
-import FlashcardForm from "../DetailsPage/FlashcardForm";
+import FlashcardForm from "../FlashcardForrms/FlashcardForm";
 import { Plus } from "lucide-react";
 
 export default function AllFlashcardsPage({
@@ -12,7 +12,7 @@ export default function AllFlashcardsPage({
   onDeleteFlashcard,
   onMarkCorrect,
   onUpdate,
-  onAddFlashcard
+  onAddFlashcard,
 }) {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -49,13 +49,17 @@ export default function AllFlashcardsPage({
   }
 
   if (isEditing) {
-      return (
-        <div>
-          <FlashcardForm onSubmit={handleSubmit} buttonText="Create Flashcard" showCollectionSelect={true} />
-          <button onClick={handleCancel}>Cancel</button>
-        </div>
-      );
-    }
+    return (
+      <div>
+        <FlashcardForm
+          onSubmit={handleSubmit}
+          buttonText="Create Flashcard"
+          showCollectionSelect={true}
+          onCancel={handleCancel}
+        />
+      </div>
+    );
+  }
 
   const activeFlashcards = flashcards.filter(
     (flashcard) => !flashcard.isCorrect
@@ -73,7 +77,9 @@ export default function AllFlashcardsPage({
   return (
     <div>
       <Text>{activeFlashcards.length} Flashcards are left</Text>
-      <AddButton onClick={handleEditing}><Plus/></AddButton>
+      <AddButton onClick={handleEditing}>
+        <Plus />
+      </AddButton>
       <div>
         {activeFlashcards.map((flashcard) => (
           <FlippableFlashcard
