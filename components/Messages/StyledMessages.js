@@ -74,7 +74,7 @@ export const LoadingWrapper = styled.section`
   gap: 1rem;
   font-size: 1.2rem;
   font-weight: 500;
-  color: var(--primary-foreground);
+  color: var(--background-secondary);
 `;
 
 export const LoadingSpinner = styled.div`
@@ -82,7 +82,7 @@ width: 48px;
   height: 48px;
   border-radius: 50%;
   display: inline-block;
-  border-top: 3px solid #FFF;
+  border-top: 3px solid var(--background-secondary);
   border-right: 3px solid transparent;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
