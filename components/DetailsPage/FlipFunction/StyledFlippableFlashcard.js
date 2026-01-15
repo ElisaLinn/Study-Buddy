@@ -128,9 +128,11 @@ export const AnswerButton = styled.button`
   border: 5px solid var(--terciary);
   margin-top: 15px;
   box-shadow: var(--box-shadow-button);
+  cursor: pointer;
 
    &:hover  {
     opacity: 80%;
+    cursor: pointer;
   }
 
   &:active {
@@ -163,6 +165,11 @@ export const QuestionText = styled.p`
   font-size: 1rem;
   font-weight: 400;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  
 `;
 
 export const AnswerText = styled.p`

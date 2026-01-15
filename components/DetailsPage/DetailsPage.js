@@ -1,9 +1,9 @@
 import { useState } from "react";
 import AddElement from "../AddElement.js/AddElement";
 import BackButton from "./BackButton/BackButton";
-import FlashcardForm from "./FlashcardForm";
+import FlashcardForm from "../FlashcardForrms/FlashcardForm";
 import FlippableFlashcard from "./FlipFunction/FlippableFlashcard";
-import { DetailsPageWrapper} from "./StyledDetailsPage";
+import { DetailsPageWrapper } from "./StyledDetailsPage";
 import { Subtitle, Text } from "../StylingGeneral/StylingGeneral";
 import { Trash2 } from "lucide-react";
 import DeleteButton from "../DeleteButton/DeleteButton";
@@ -17,7 +17,6 @@ export default function CollectionDetails({
   onUpdate,
 }) {
   const [isEditing, setIsEditing] = useState(false);
-  
 
   if (!collection) {
     return <p>No collection data available</p>;
@@ -37,8 +36,6 @@ export default function CollectionDetails({
     setIsEditing(false);
   }
 
-  
-
   if (isEditing) {
     return (
       <div>
@@ -51,7 +48,7 @@ export default function CollectionDetails({
   return (
     <DetailsPageWrapper>
       <BackButton />
-           <AddElement onClick={handleEditing} />
+      <AddElement onClick={handleEditing} />
       <Subtitle>{collection.title}</Subtitle>
       {collection.flashcards && collection.flashcards.length > 0 && (
         <div>
@@ -68,9 +65,9 @@ export default function CollectionDetails({
         </div>
       )}
 
-      <DeleteButton onDelete={onDelete} id={collection?._id}><Trash2/></DeleteButton>
-      
-      
+      <DeleteButton onDelete={onDelete} id={collection?._id}>
+        <Trash2 />
+      </DeleteButton>
     </DetailsPageWrapper>
   );
 }

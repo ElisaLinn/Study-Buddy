@@ -1,12 +1,11 @@
-import useSWR from "swr";
-import CollectionCard from "../CollectionCard";
+import SuccessMessage from "@/components/Messages/SuccessMessage";
 import { useState } from "react";
 
-export default function CollectionForm ({ onSubmit, buttonText = "Submit" }){
-      const [submitError, setSubmitError] = useState("");
-      const [successMessage, setSuccessMessage] = useState("");
+export default function CollectionForm({ onSubmit, buttonText = "Submit" }) {
+  const [submitError, setSubmitError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
-    async function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     setSubmitError("");
@@ -16,12 +15,11 @@ export default function CollectionForm ({ onSubmit, buttonText = "Submit" }){
     const collectionData = Object.fromEntries(formData);
 
     const cleanedData = {
-      title: collectionData.CollectionTitle
+      title: collectionData.CollectionTitle,
     };
 
     try {
       if (onSubmit) {
-    
         await onSubmit(cleanedData);
         setSuccessMessage("A new collection has been created!");
         event.target.reset();
@@ -31,22 +29,29 @@ export default function CollectionForm ({ onSubmit, buttonText = "Submit" }){
       setSubmitError("Failed to create a new collection.");
     }
   }
-    return(
-        <>
-      {submitError && <p style={{color: 'red'}}>{submitError}</p>}
-      {successMessage && <p style={{color: 'green'}}>{successMessage}</p>}
-      
+  return (
+    <>
+      {submitError && <p>{submitError}</p>}mn
+      {successMessage && (
+        <SuccessMessage
+          message={successMessage}
+          show={!!successMessage}
+          onClose={() => setSuccessMessage("")}
+        >
+          {successMessage}
+        </SuccessMessage>
+      )}
       <form onSubmit={handleSubmit}>
         <label htmlFor="CollectionTitle">Collection Title</label>
-        <input 
-          type="text" 
-          id="CollectionTitle" 
-          name="CollectionTitle" 
-          placeholder="Add your collection" 
+        <input
+          type="text"
+          id="CollectionTitle"
+          name="CollectionTitle"
+          placeholder="Add your collection"
           required
         />
         <button type="submit">{buttonText}</button>
       </form>
-        </>
-    )
+    </>
+  );
 }

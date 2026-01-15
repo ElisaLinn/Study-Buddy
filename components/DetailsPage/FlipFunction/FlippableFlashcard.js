@@ -138,7 +138,7 @@ export default function FlippableFlashcard({
       <FlashcardWrapper isFlipped={isFlipped} isAnimating={isAnimating} isAnimatingArchive={isAnimatingArchive}>
         <FlipContainer isFlipped={isFlipped} isCorrect={flashcard.isCorrect}>
           <FlashcardSide className="front" isCorrect={flashcard.isCorrect}>
-            {flashcard.isCorrect && <CorrectBadge>✓</CorrectBadge>}
+            {flashcard.isCorrect && <CorrectBadge/>}
             <SubtitleWrapper>
             <SubtitleCard>Question:</SubtitleCard>
              {showRemoveButton && (

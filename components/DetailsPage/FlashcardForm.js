@@ -1,14 +1,31 @@
 import { useState } from "react";
 import useSWR from "swr";
-import SuccessMessage from "../SuccessMessage/SuccessMessage";
+import SuccessMessage from "../Messages/SuccessMessage";
+import {
+  ButtonContainer,
+  CollectionTag,
+  FlashcardSide,
+  FlashcardWrapper,
+  FlipContainer,
+  QuestionText,
+  SubtitleCard,
+  SubtitleWrapper,
+  TagWrapper,
+} from "./FlipFunction/StyledFlippableFlashcard";
+
+import {
+  CancelButtonStyled,
+  SubmitButtonStyled,
+} from "../FlashcardForrms/StyledFlashcardForm";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function FlashcardForm({
   onSubmit,
-  buttonText = "Submit",
   defaultCollectionId = "",
   showCollectionSelect = false,
+  onCancel,
+  handleCancel,
 }) {
   const [submitError, setSubmitError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -61,44 +78,105 @@ export default function FlashcardForm({
           {successMessage}
         </SuccessMessage>
       )}
-
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="question">Question</label>
-        <input
-          type="text"
-          id="question"
-          name="question"
-          placeholder="Type in your question"
-          required
-        />
-        <label htmlFor="answer">Answer</label>
-        <input
-          type="text"
-          id="answer"
-          name="answer"
-          placeholder="Type in your answer"
-          required
-        />
-        {showCollectionSelect && (
-          <>
-            <label htmlFor="collection">Collection</label>
-            <select
-              id="collection"
-              value={selectedCollectionId}
-              onChange={(event) => setSelectedCollectionId(event.target.value)}
-              required
-            >
-              <option value="">Choose a collection...</option>
-              {collections?.map((collection) => (
-                <option key={collection._id} value={collection._id}>
-                  {collection.title}
-                </option>
-              ))}
-            </select>
-          </>
-        )}
-        <button type="submit">{buttonText}</button>
-      </form>
+      {handleCancel && (
+        <CancelButtonStyled onClick={handleCancel}>Cancel</CancelButtonStyled>
+      )}
+      <FlashcardWrapper>
+        <FlipContainer>
+          <form onSubmit={handleSubmit}>
+            <FlashcardSide className="front">
+              <SubtitleWrapper>
+                <SubtitleCard>
+                  <label htmlFor="question">Question</label>
+                </SubtitleCard>
+              </SubtitleWrapper>
+              <QuestionText>
+                <input
+                  type="text"
+                  id="question"
+                  name="question"
+                  placeholder="Type in your question"
+                  required
+                />
+              </QuestionText>
+            </FlashcardSide>
+            <TagWrapper>
+              <CollectionTag>
+                {" "}
+                {showCollectionSelect && (
+                  <>
+                    <label htmlFor="collection">Collection</label>
+                    <select
+                      id="collection"
+                      value={selectedCollectionId}
+                      onChange={(event) =>
+                        setSelectedCollectionId(event.target.value)
+                      }
+                      required
+                    >
+                      <option value="">Choose a collection...</option>
+                      {collections?.map((collection) => (
+                        <option key={collection._id} value={collection._id}>
+                          {collection.title}
+                        </option>
+                      ))}
+                    </select>
+                  </>
+                )}
+              </CollectionTag>
+            </TagWrapper>
+          </form>
+        </FlipContainer>
+      </FlashcardWrapper>
+      <FlashcardWrapper>
+        <FlipContainer>
+          <form onSubmit={handleSubmit}>
+            <FlashcardSide className="front">
+              <SubtitleWrapper>
+                <SubtitleCard>
+                  <label htmlFor="answer">Answer</label>
+                </SubtitleCard>
+              </SubtitleWrapper>
+              <QuestionText>
+                <input
+                  type="text"
+                  id="answer"
+                  name="answer"
+                  placeholder="Type in your answer"
+                  required
+                />
+              </QuestionText>
+            </FlashcardSide>
+            <TagWrapper>
+              <CollectionTag>
+                {showCollectionSelect && (
+                  <>
+                    <label htmlFor="collection">Collection</label>
+                    <select
+                      id="collection"
+                      value={selectedCollectionId}
+                      onChange={(event) =>
+                        setSelectedCollectionId(event.target.value)
+                      }
+                      required
+                    >
+                      <option value="">Choose a collection...</option>
+                      {collections?.map((collection) => (
+                        <option key={collection._id} value={collection._id}>
+                          {collection.title}
+                        </option>
+                      ))}
+                    </select>
+                  </>
+                )}
+              </CollectionTag>
+            </TagWrapper>
+          </form>{" "}
+        </FlipContainer>
+      </FlashcardWrapper>
+      <ButtonContainer>
+        <SubmitButtonStyled type="submit">Submit</SubmitButtonStyled>
+      </ButtonContainer>
     </>
   );
 }
