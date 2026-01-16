@@ -5,6 +5,7 @@ import { Text } from "../StylingGeneral/StylingGeneral";
 import FlashcardForm from "../FlashcardForrms/FlashcardForm";
 import { Plus } from "lucide-react";
 import LoadingMessage from "../Messages/LoadingMessage";
+import useSWR from "swr";
 
 export default function AllFlashcardsPage({
   flashcards,
@@ -16,6 +17,8 @@ export default function AllFlashcardsPage({
   onAddFlashcard,
 }) {
   const [isEditing, setIsEditing] = useState(false);
+
+  const { data: collections = [] } = useSWR("/api/collections");
 
   function handleEditing() {
     setIsEditing(true);
@@ -90,6 +93,7 @@ export default function AllFlashcardsPage({
             onMarkCorrect={onMarkCorrect}
             onUpdate={onUpdate}
             showCorrectAnimation={true}
+            collections={collections}
           />
         ))}
       </div>

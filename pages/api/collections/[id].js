@@ -15,10 +15,8 @@ export default async function handler(request, response) {
         return;
       }
 
-
       const flashcards = await Flashcard.find({ collectionId: id });
 
-  
       const collectionWithFlashcards = {
         ...collection.toObject(),
         flashcards: flashcards,
@@ -30,7 +28,7 @@ export default async function handler(request, response) {
       console.error("Database error:", error);
       response
         .status(500)
-        .json({ status: "Database error", error: error.meslösage });
+        .json({ status: "Database error", error: error.message });
       return;
     }
   }

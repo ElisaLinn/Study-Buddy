@@ -8,26 +8,16 @@ export default async function handler(request, response) {
   if (request.method === "GET") {
     try {
       const collections = await Collection.find();
+      const allFlashcards = await Flashcard.find();
       
-     
-      const collectionsWithCount = await Promise.all(
-        collections.map(async (collection) => {
-          const flashcardCount = await Flashcard.countDocuments({
-            collectionId: collection._id
-          });
-          
-          const correctCount = await Flashcard.countDocuments({
-            collectionId: collection._id,
-            isCorrect: true
-          });
-          
-          return {
-            ...collection.toObject(),
-            flashcardCount: flashcardCount,
-            correctCount: correctCount
-          };
-        })
-      );
+      const collectionsWithCount = collections.map(collection => {
+        const flashcards = allFlashcards.filter(flashcard => flashcard.collectionId.toString() === collection._id.toString());
+        return {
+          ...collection.toObject(),
+          flashcardCount: flashcards.length,
+          correctCount: flashcards.filter(flashcard => flashcard.isCorrect).length
+        };
+      });
       
       response.status(200).json(collectionsWithCount);
       return;

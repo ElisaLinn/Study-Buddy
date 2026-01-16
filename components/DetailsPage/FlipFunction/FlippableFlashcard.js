@@ -1,5 +1,4 @@
 import { useState } from "react";
-import useSWR from "swr";
 import EditFlashcardModal from "../../Edit/EditFlashcardModal";
 import {
   AnswerButton,
@@ -29,17 +28,14 @@ export default function FlippableFlashcard({
   onUpdate,
   showRemoveButton = false,
   showCorrectAnimation = false,
+  collections = [],
 }) {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isAnimatingArchive, setIsAnimatingArchive] = useState(false);
 
-  const { data: collections } = useSWR("/api/collections");
-
-  const collection = collections?.find(
-    (col) => col._id === flashcard.collectionId
-  );
+  const collection = collections?.find((col) => col._id === flashcard.collectionId);
 
   function handleFlip() {
     setIsFlipped(!isFlipped);

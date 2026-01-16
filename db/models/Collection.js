@@ -16,10 +16,3 @@ const Collection =
   mongoose.models.Collection || mongoose.model("Collection", collectionSchema);
 
 export default Collection;
-
-// imageUrl: {
-//     width: { type: String, required: false },
-//     height: { type: String, required: false },
-//     url: { type: String, required: false },
-//     public_id:{type: String, required: false},
-//   },

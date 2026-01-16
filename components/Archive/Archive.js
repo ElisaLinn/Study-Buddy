@@ -4,6 +4,7 @@ import { BrushCleaning, LucideArrowBigLeft } from "lucide-react";
 import { ResetAllButton, CardWrapper, AnimationWrapper, ResetAllButtonWrapper } from "./StyledArchive";
 import { Text } from "../StylingGeneral/StylingGeneral";
 import { useState } from "react";
+import useSWR from "swr";
 
 export default function ArchivePage({
   archivedFlashcards,
@@ -14,6 +15,8 @@ export default function ArchivePage({
   onResetAll,
 }) {
   const [isResetting, setIsResetting] = useState(false);
+
+  const { data: collections = [] } = useSWR("/api/collections");
 
   const handleResetAll = () => {
     setIsResetting(true);
@@ -64,6 +67,7 @@ export default function ArchivePage({
                 onMarkCorrect={onMarkCorrect}
                 onUpdate={onUpdate}
                 showRemoveButton={true}
+                collections={collections}
               />
             </CardWrapper>
           ))}

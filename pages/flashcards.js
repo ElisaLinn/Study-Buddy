@@ -50,6 +50,27 @@ export default function FlashcardsPage() {
     }
   }
 
+  async function handleAddFlashcard(flashcardData) {
+    try {
+      const response = await fetch("/api/flashcards", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(flashcardData),
+      });
+
+      if (response.ok) {
+        mutate();
+        setSuccessMessage("Flashcard successfully created!");
+      } else {
+        alert("Error creating flashcard");
+      }
+    } catch (error) {
+      alert("Error creating flashcard");
+    }
+  }
+
   return (
     <>
       <SuccessMessage
@@ -64,6 +85,7 @@ export default function FlashcardsPage() {
         onDeleteFlashcard={handleDeleteFlashcard}
         onMarkCorrect={handleMarkCorrect}
         onUpdate={mutate}
+        onAddFlashcard={handleAddFlashcard}
       />
     </>
   );

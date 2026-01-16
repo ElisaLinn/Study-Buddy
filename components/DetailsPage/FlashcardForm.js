@@ -168,7 +168,7 @@ export default function FlashcardForm({
                 )}
               </CollectionTag>
             </TagWrapper>
-          </form>{" "}
+          </form>
         </FlipContainer>
       </FlashcardWrapper>
       <ButtonContainer>

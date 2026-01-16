@@ -5,8 +5,8 @@ import FlashcardForm from "../FlashcardForrms/FlashcardForm";
 import FlippableFlashcard from "./FlipFunction/FlippableFlashcard";
 import { DetailsPageWrapper } from "./StyledDetailsPage";
 import { Subtitle, Text } from "../StylingGeneral/StylingGeneral";
-import { Trash2 } from "lucide-react";
-import DeleteButton from "../DeleteButton/DeleteButton";
+
+import useSWR from "swr";
 
 export default function CollectionDetails({
   collection,
@@ -17,6 +17,8 @@ export default function CollectionDetails({
   onUpdate,
 }) {
   const [isEditing, setIsEditing] = useState(false);
+
+  const { data: collections = [] } = useSWR("/api/collections");
 
   if (!collection) {
     return <p>No collection data available</p>;
@@ -60,6 +62,7 @@ export default function CollectionDetails({
               onDelete={onDeleteFlashcard}
               onMarkCorrect={onMarkCorrect}
               onUpdate={onUpdate}
+              collections={collections}
             />
           ))}
         </div>
