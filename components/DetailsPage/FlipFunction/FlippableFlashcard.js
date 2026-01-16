@@ -1,5 +1,4 @@
 import { useState } from "react";
-import useSWR from "swr";
 import EditFlashcardModal from "../../Edit/EditFlashcardModal";
 import {
   AnswerButton,
@@ -14,31 +13,29 @@ import {
   CorrectBadge,
   EditButton,
   CollectionTag,
-  CollectionTagStyled,
   TagWrapper,
   AnswerText,
   SubtitleWrapper,
   SubtitleCard,
+  RemoveCardButton,
 } from "./StyledFlippableFlashcard";
-import { Ellipsis, Pencil } from "lucide-react";
-import { Subtitle, Text } from "@/components/StylingGeneral/StylingGeneral";
-
-const fetcher = (url) => fetch(url).then((res) => res.json());
+import { Check,Ellipsis,  X } from "lucide-react";
 
 export default function FlippableFlashcard({
   flashcard,
   onDelete,
   onMarkCorrect,
   onUpdate,
+  showRemoveButton = false,
+  showCorrectAnimation = false,
+  collections = [],
 }) {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [isAnimatingArchive, setIsAnimatingArchive] = useState(false);
 
-  const { data: collections } = useSWR("/api/collections", fetcher);
-
-  const collection = collections?.find(
-    (col) => col._id === flashcard.collectionId
-  );
+  const collection = collections?.find((col) => col._id === flashcard.collectionId);
 
   function handleFlip() {
     setIsFlipped(!isFlipped);
@@ -74,37 +71,74 @@ export default function FlippableFlashcard({
   };
 
   function handleMarkCorrect() {
-    if (onMarkCorrect) {
-      onMarkCorrect(flashcard._id, true)
-        .then(() => {
-          setIsFlipped(false);
-        })
-        .catch((error) => {
-          console.error("Error marking as correct:", error);
-        });
+    if (showCorrectAnimation) {
+      setIsAnimating(true);
+      setTimeout(() => {
+        if (onMarkCorrect) {
+          onMarkCorrect(flashcard._id, true)
+            .then(() => {
+              setIsFlipped(false);
+            })
+            .catch((error) => {
+              console.error("Error marking as correct:", error);
+              setIsAnimating(false);
+            });
+        }
+      }, 600);
+    } else {
+      if (onMarkCorrect) {
+        onMarkCorrect(flashcard._id, true)
+          .then(() => {
+            setIsFlipped(false);
+          })
+          .catch((error) => {
+            console.error("Error marking as correct:", error);
+          });
+      }
     }
   }
 
   function handleMarkIncorrect() {
-    if (onMarkCorrect) {
-      onMarkCorrect(flashcard._id, false)
-        .then(() => {
-          setIsFlipped(false);
-        })
-        .catch((error) => {
-          console.error("Error marking as incorrect:", error);
-        });
+    if (showRemoveButton) {
+      setIsAnimatingArchive(true);
+      setTimeout(() => {
+        if (onMarkCorrect) {
+          onMarkCorrect(flashcard._id, false)
+            .then(() => {
+              setIsFlipped(false);
+            })
+            .catch((error) => {
+              console.error("Error marking as incorrect:", error);
+              setIsAnimatingArchive(false);
+            });
+        }
+      }, 600);
+    } else {
+      if (onMarkCorrect) {
+        onMarkCorrect(flashcard._id, false)
+          .then(() => {
+            setIsFlipped(false);
+          })
+          .catch((error) => {
+            console.error("Error marking as incorrect:", error);
+          });
+      }
     }
   }
 
   return (
     <>
-      <FlashcardWrapper isFlipped={isFlipped}>
+      <FlashcardWrapper isFlipped={isFlipped} isAnimating={isAnimating} isAnimatingArchive={isAnimatingArchive}>
         <FlipContainer isFlipped={isFlipped} isCorrect={flashcard.isCorrect}>
           <FlashcardSide className="front" isCorrect={flashcard.isCorrect}>
-            {flashcard.isCorrect && <CorrectBadge>✓</CorrectBadge>}
+            {flashcard.isCorrect && <CorrectBadge/>}
             <SubtitleWrapper>
             <SubtitleCard>Question:</SubtitleCard>
+             {showRemoveButton && (
+               <RemoveCardButton onClick={handleMarkIncorrect}>
+                 <X/>
+               </RemoveCardButton>
+             )}
             </SubtitleWrapper>
             <QuestionText>{flashcard.question}</QuestionText>
             <ButtonContainer>
@@ -129,9 +163,9 @@ export default function FlippableFlashcard({
             </ButtonContainer>
             <ButtonContainer>
               <IncorrectButton onClick={handleMarkIncorrect}>
-                Incorrect
+                <X/>
               </IncorrectButton>
-              <CorrectButton onClick={handleMarkCorrect}>Correct</CorrectButton>
+              <CorrectButton onClick={handleMarkCorrect}><Check/></CorrectButton>
             </ButtonContainer>
             <EditButton onClick={handleEdit}>
               <Ellipsis />

@@ -1,10 +1,12 @@
 import useSWR from "swr";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import Archive from "@/components/Archive/Archive";
-
-const fetcher = (url) => fetch(url).then((res) => res.json());
+import SuccessMessage from "@/components/Messages/SuccessMessage";
+import LoadingMessage from "@/components/Messages/LoadingMessage";
 
 export default function ArchivePage() {
+  const [successMessage, setSuccessMessage] = useState("");
   const router = useRouter();
   const { collection } = router.query;
 
@@ -13,9 +15,9 @@ export default function ArchivePage() {
     isLoading,
     error,
     mutate,
-  } = useSWR("/api/flashcards", fetcher);
+  } = useSWR("/api/flashcards");
 
-  const { data: collections } = useSWR("/api/collections", fetcher);
+  const { data: collections } = useSWR("/api/collections");
 
   let archivedFlashcards =
     allFlashcards?.filter((flashcard) => flashcard.isCorrect) || [];
@@ -65,6 +67,7 @@ export default function ArchivePage() {
         }
       }
       mutate();
+      setSuccessMessage("All flashcards moved back successfully!");
     } catch (error) {
       alert("Error resetting flashcards");
     }
@@ -87,7 +90,7 @@ export default function ArchivePage() {
   }
 
   if (isLoading) {
-    return <h1>Loading archive...</h1>;
+    return <LoadingMessage message="Loading archive..." show={true} />;
   }
 
   if (error) {
@@ -95,13 +98,20 @@ export default function ArchivePage() {
   }
 
   return (
-    <Archive
-      archivedFlashcards={archivedFlashcards}
-      currentCollection={currentCollection}
-      onDelete={handleDeleteFlashcard}
-      onMarkCorrect={handleMarkCorrect}
-      onUpdate={mutate}
-      onResetAll={handleResetAllFlashcards}
-    />
+    <>
+      <SuccessMessage
+        message={successMessage}
+        show={!!successMessage}
+        onClose={() => setSuccessMessage("")}
+      />
+      <Archive
+        archivedFlashcards={archivedFlashcards}
+        currentCollection={currentCollection}
+        onDelete={handleDeleteFlashcard}
+        onMarkCorrect={handleMarkCorrect}
+        onUpdate={mutate}
+        onResetAll={handleResetAllFlashcards}
+      />
+    </>
   );
 }

@@ -43,6 +43,7 @@ export const BackLink =styled(Link)`
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  margin-left:10px;
   cursor: pointer;
   width: 5rem;
   height: 56px;

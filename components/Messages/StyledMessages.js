@@ -1,0 +1,98 @@
+import styled from "styled-components";
+
+export const SuccessMessageWrapper = styled.section`
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+  border: 2px solid var(--accent-foreground);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin: 1rem auto;
+  max-width: 600px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  animation: slideDown 0.3s ease-out;
+
+  span {
+    font-size: 1.3rem;
+    margin-right: 0.5rem;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+`;
+
+export const ErrorMessageWrapper = styled.section`
+  background-color: var(--alert);
+  color: var(--alert-foreground);
+  border: 2px solid var(--accent-foreground);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin: 1rem auto;
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  animation: slideDown 0.3s ease-out;
+
+  span {
+    font-size: 1.3rem;
+    margin-right: 0.5rem;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+`;
+
+export const LoadingWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 1rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--background-secondary);
+`;
+
+export const LoadingSpinner = styled.div`
+width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-block;
+  border-top: 3px solid var(--background-secondary);
+  border-right: 3px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+
+  @keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 
+`;

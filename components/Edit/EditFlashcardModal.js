@@ -1,21 +1,24 @@
 import { useState } from "react";
 import useSWR from "swr";
+
+
 import {
-  ModalOverlay,
+  ModalWrapper,
   ModalContent,
   ModalHeader,
+  ModalBody,
+  ModalFooter,
   CloseButton,
-  FormGroup,
-  Label,
-  Textarea,
-  Select,
+  Form,
+  Input,
   ButtonGroup,
-  SaveButton,
-  CancelButton,
-  DeleteButton,
-} from "./StyledEditFlashcardModal";
-
-const fetcher = (url) => fetch(url).then((res) => res.json());
+  DeleteSection,
+  ModalBackdrop,
+  Select,
+  SaveButton, CancelButton 
+} from "./EditCollectionModal/StyledEditCollectionModal";
+import { Trash2, X } from "lucide-react";
+import { DeleteButtonStyled } from "../DeleteButton/StyledDeleteButton";
 
 export default function EditFlashcardModal({
   flashcard,
@@ -29,8 +32,9 @@ export default function EditFlashcardModal({
   const [selectedCollectionId, setSelectedCollectionId] = useState(
     flashcard?.collectionId || ""
   );
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
-  const { data: collections } = useSWR("/api/collections", fetcher);
+  const { data: collections } = useSWR("/api/collections");
 
   if (!isOpen || !flashcard) return null;
 
@@ -50,7 +54,15 @@ export default function EditFlashcardModal({
 
   const handleDelete = () => {
     onDelete(flashcard._id);
-    onClose();
+      onClose();
+  };
+
+  const handleDeleteClick = () => {
+    setShowDeleteConfirm(true);
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteConfirm(false);
   };
 
   const handleClose = () => {
@@ -61,59 +73,97 @@ export default function EditFlashcardModal({
   };
 
   return (
-    <ModalOverlay>
+    <ModalWrapper>
+        <ModalBackdrop/>
       <ModalContent>
+    
         <ModalHeader>
           <h2>Edit Flashcard</h2>
-          <CloseButton onClick={handleClose}></CloseButton>
+          <CloseButton onClick={handleClose}>
+            <X />
+          </CloseButton>
         </ModalHeader>
 
-        <FormGroup>
-          <Label htmlFor="question">Question:</Label>
-          <Textarea
-            id="question"
-            value={question}
-            onChange={(event) => setQuestion(event.target.value)}
-            rows={3}
-            placeholder="What´s your Question"
-          />
-        </FormGroup>
+        <ModalBody>
+          <Form>
+            <label htmlFor="question">Question:</label>
+            <Input
+              id="question"
+              value={question}
+              onChange={(event) => setQuestion(event.target.value)}
+              rows={3}
+              placeholder="What´s your Question"
+            />
+          </Form>
+        </ModalBody>
 
-        <FormGroup>
-          <Label htmlFor="answer">Answer:</Label>
-          <Textarea
-            id="answer"
-            value={answer}
-            onChange={(event) => setAnswer(event.target.value)}
-            rows={4}
-            placeholder="What´s your Answer"
-          />
-        </FormGroup>
+        <ModalBody>
+          <Form>
+            <label htmlFor="answer">Answer:</label>
+            <Input
+              id="answer"
+              value={answer}
+              onChange={(event) => setAnswer(event.target.value)}
+              rows={4}
+              placeholder="What´s your Answer"
+            />
+          </Form>
+        </ModalBody>
 
-        <FormGroup>
-          <Label htmlFor="collection">Collection:</Label>
-          <Select
-            id="collection"
-            value={selectedCollectionId}
-            onChange={(event) => setSelectedCollectionId(event.target.value)}
-          >
-            <option value="">Choose a collection...</option>
-            {collections?.map((collection) => (
-              <option key={collection._id} value={collection._id}>
-                {collection.title}
-              </option>
-            ))}
-          </Select>
-        </FormGroup>
+        <ModalBody>
+          <Form>
+            <label htmlFor="collection">Collection:</label>
+            <Select
+              id="collection"
+              value={selectedCollectionId}
+              onChange={(event) => setSelectedCollectionId(event.target.value)}
+            >
+              <option value="">Choose a collection...</option>
+              {collections?.map((collection) => (
+                <option key={collection._id} value={collection._id}>
+                  {collection.title}
+                </option>
+              ))}
+            </Select>
+          </Form>
+        </ModalBody>
 
-        <ButtonGroup>
-          <DeleteButton onClick={handleDelete}>Delete</DeleteButton>
-          <section>
-            <CancelButton onClick={handleClose}>Quit</CancelButton>
-            <SaveButton onClick={handleSave}>Save</SaveButton>
-          </section>
-        </ButtonGroup>
+        <section>
+          {showDeleteConfirm ? (
+            <ModalBody>
+              <DeleteSection>
+                <p>Delete this flashcard?</p>
+                <section>
+                  <DeleteButtonStyled onClick={handleCancelDelete}>
+                    Cancel
+                  </DeleteButtonStyled>
+                  <DeleteButtonStyled onClick={handleDelete}>
+                    Delete
+                  </DeleteButtonStyled>
+                </section>
+              </DeleteSection>
+            </ModalBody>
+          ) : (
+            <>
+              <ModalBody>
+                <DeleteSection>
+                  <h3>Danger Zone</h3>
+                  <p>The Flashcard will not appear again</p>
+                  <DeleteButtonStyled onClick={handleDeleteClick}>
+                    <Trash2 />
+                  </DeleteButtonStyled>
+                </DeleteSection>
+              </ModalBody>
+              <ModalFooter>
+                <ButtonGroup>
+                  <CancelButton onClick={handleClose}>Quit</CancelButton>
+                  <SaveButton onClick={handleSave}>Save</SaveButton>
+                </ButtonGroup>
+              </ModalFooter>
+            </>
+          )}
+        </section>
       </ModalContent>
-    </ModalOverlay>
+    </ModalWrapper>
   );
 }

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ModalWrapper = styled.div`
+export const ModalWrapper = styled.main`
   position: fixed;
   top: 0;
   left: 0;
@@ -27,7 +27,7 @@ export const ModalBackdrop = styled.div`
   }
 `;
 
-export const ModalContent = styled.div`
+export const ModalContent = styled.section`
   background: var(--card);
   border-radius: 12px;
   width: 100%;
@@ -37,21 +37,34 @@ export const ModalContent = styled.div`
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   position: relative;
   z-index: 1;
+
+  @media (max-width: 768px) {
+    max-height: 85vh;
+    border-radius: 8px;
+    margin: 0.5rem;
+  }
 `;
 
-export const ModalHeader = styled.div`
+export const ModalHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1.5rem;
   border-bottom: 1px solid var(--background-secondary);
 
+  
+
   h2 {
     margin: 0;
     color: var(--card-foreground);
     font-size: 1.25rem;
     font-weight: 600;
-  }
+   @media (max-width: 768px) {
+  
+     font-size: 1rem;
+    font-weight: 500;
+  
+  }}
 `;
 
 export const CloseButton = styled.button`
@@ -72,11 +85,15 @@ export const CloseButton = styled.button`
 `;
 
 export const ModalBody = styled.div`
-  padding: 1.5rem;
+  padding: 0.2rem;
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
 `;
 
 export const Form = styled.form`
-  margin-bottom: 2rem;
+  margin-bottom: 0.2rem;
 
   label {
     display: block;
@@ -93,7 +110,7 @@ export const Input = styled.input`
   border-radius: 8px;
   background-color: var(--background-foreground);
   color: var(--card-foreground);
-  font-size: 1rem;
+  font-size: 1.2rem;
 
   &:focus {
     outline: none;
@@ -126,40 +143,73 @@ export const DeleteSection = styled.div`
   }
 `;
 
-export const ModalFooter = styled.div`
+export const ModalFooter = styled.footer`
   padding: 1.5rem;
   border-top: 1px solid var(--background-secondary);
 `;
 
-export const ButtonGroup = styled.div`
+export const ButtonGroup = styled.section`
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
 `;
 
-export const Button = styled.button`
-  padding: 0.75rem 1.5rem;
+export const SaveButton = styled.button`
+  padding: 12px 24px;
+  background-color: var(--primary);
+  color: white;
   border: none;
-  border-radius: 8px;
-  font-weight: 500;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.2s;
 
-  ${props => props.$variant === 'primary' && `
-    background-color: var(--primary);
-    color: white;
+  &:hover {
+    background-color: var(--bookmark);
+    
+  }
+`;
 
-    &:hover {
-      background-color: var(--accent);
-    }
-  `}
+export const CancelButton = styled.button`
+  padding: 12px 24px;
+  background-color: var(--terciary);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
 
-  ${props => props.$variant === 'secondary' && `
-    background-color: var(--background-secondary);
-    color: var(--card-foreground);
+  &:hover {
+    background-color: #545b62;
+  }
+`;
 
-    &:hover {
-      background-color: var(--terciary);
-    }
-  `}
+
+export const Select = styled.select`
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: white;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  option {
+    font-size: 16px;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  }
+  
+  @media (max-width: 768px) {
+    font-size: 16px;
+    padding: 14px;
+  }
 `;

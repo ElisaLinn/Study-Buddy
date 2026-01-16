@@ -1,10 +1,12 @@
 import useSWR from "swr";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import CollectionDetails from "@/components/DetailsPage/DetailsPage";
-
-const fetcher = (url) => fetch(url).then((res) => res.json());
+import SuccessMessage from "@/components/Messages/SuccessMessage";
+import LoadingMessage from "@/components/Messages/LoadingMessage";
 
 export default function CollectionDetailsPage() {
+  const [successMessage, setSuccessMessage] = useState("");
   const router = useRouter();
   const { id } = router.query;
 
@@ -13,14 +15,14 @@ export default function CollectionDetailsPage() {
     isLoading,
     error,
     mutate,
-  } = useSWR(id ? `/api/collections/${id}` : null, fetcher);
+  } = useSWR(id ? `/api/collections/${id}` : null);
 
   if (!router.isReady) {
-    return <h1>Loading...</h1>;
+    return <LoadingMessage message="Loading collection..." show={true} />;
   }
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <LoadingMessage message="Loading collection details..." show={true} />;
   }
 
   if (error) {
@@ -64,6 +66,7 @@ export default function CollectionDetailsPage() {
 
       if (response.ok) {
         mutate();
+        setSuccessMessage("Flashcard successfully created!");
         return;
       } else {
         throw new Error("Failed to create flashcard");
@@ -81,6 +84,7 @@ export default function CollectionDetailsPage() {
 
       if (response.ok) {
         mutate();
+        setSuccessMessage("Flashcard successfully deleted!");
       } else {
         alert("Error deleting flashcard");
       }
@@ -100,7 +104,7 @@ export default function CollectionDetailsPage() {
       });
 
       if (response.ok) {
-        mutate(); 
+        mutate();
       } else {
         alert("Error updating flashcard");
       }
@@ -111,6 +115,11 @@ export default function CollectionDetailsPage() {
 
   return (
     <>
+      <SuccessMessage
+        message={successMessage}
+        show={!!successMessage}
+        onClose={() => setSuccessMessage("")}
+      />
       <CollectionDetails
         collection={collection}
         onDelete={handleDelete}

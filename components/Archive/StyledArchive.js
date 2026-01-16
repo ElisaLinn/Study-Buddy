@@ -1,5 +1,14 @@
 import styled from "styled-components";
-import Link from "next/link";
+
+
+export const ResetAllButtonWrapper = styled.section`
+display: flex;
+justify-content: center;
+`;
+
+export const AnimationWrapper = styled.section`
+overflow: hidden;
+`;
 
 export const ResetAllButton = styled.button`
   background-color: var(--alert);
@@ -8,9 +17,13 @@ export const ResetAllButton = styled.button`
   padding: 12px 24px;
   border-radius: 25px;
   font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
   font-weight: 600;
   cursor: pointer;
-  margin: 20px 0;
   transition: all 0.2s ease;
 
   &:hover {
@@ -21,6 +34,30 @@ export const ResetAllButton = styled.button`
 
   &:active {
     transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+`;
+
+export const CardWrapper = styled.div`
+  ${(props) =>
+    props.isResetting &&
+    `
+    animation: fadeOutAndSlideRight 0.6s ease-out forwards;
+  `}
+
+  @keyframes fadeOutAndSlideRight {
+    0% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(150%);
+    }
   }
 `;
 

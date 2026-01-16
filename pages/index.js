@@ -1,25 +1,20 @@
 import CollectionList from "@/components/CollectionList/CollectionList";
-import { Text } from "@/components/StylingGeneral/StylingGeneral";
+import { useState } from "react";
 import useSWR from "swr";
-
-const fetcher = (url) => fetch(url).then((res) => res.json());
+import SuccessMessage from "@/components/Messages/SuccessMessage";
+import LoadingMessage from "@/components/Messages/LoadingMessage";
 
 export default function HomePage() {
+  const [successMessage, setSuccessMessage] = useState("");
+
   const {
     data: collections,
     isLoading,
     error,
     mutate,
-  } = useSWR("/api/collections", fetcher);
+  } = useSWR("/api/collections");
 
-  if (!collections || collections.length === 0) {
-    return (
-      <div>
-        <h1>All Flashcards</h1>
-        <p>No Flashcard found.</p>
-      </div>
-    );
-  }
+
 
   async function handleAddCollection(newCollectionData) {
     try {
@@ -33,6 +28,7 @@ export default function HomePage() {
 
       if (response.ok) {
         mutate();
+        setSuccessMessage("Collection successfully created!");
       } else {
         alert("Error creating collection");
       }
@@ -56,6 +52,7 @@ export default function HomePage() {
 
       if (response.ok) {
         mutate();
+        setSuccessMessage("Collection successfully updated!");
       } else {
         alert("Error updating collection");
       }
@@ -72,6 +69,7 @@ export default function HomePage() {
 
       if (response.ok) {
         mutate();
+        setSuccessMessage("Collection successfully deleted!");
       } else {
         alert("Error deleting collection");
       }
@@ -80,12 +78,18 @@ export default function HomePage() {
     }
   }
 
-  if (isLoading) return <p>Loading activities…</p>;
-  if (error) return <p>Error loading activities.</p>;
-  if (!collections) return <p>No activities found.</p>;
+  if (isLoading)
+    return <LoadingMessage message="Loading collections..." show={true} />;
+  if (error) return <p>Error loading collections.</p>;
+  if (!collections) return <p>No collections found.</p>;
 
   return (
     <>
+      <SuccessMessage
+        message={successMessage}
+        show={!!successMessage}
+        onClose={() => setSuccessMessage("")}
+      />
       <CollectionList
         collections={collections}
         onAddCollection={handleAddCollection}

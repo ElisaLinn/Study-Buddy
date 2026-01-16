@@ -1,15 +1,17 @@
 import useSWR from "swr";
+import { useState } from "react";
 import AllFlashcardsPage from "@/components/FlashcardsPage/FlashcardsPage";
-
-const fetcher = (url) => fetch(url).then((res) => res.json());
+import SuccessMessage from "@/components/Messages/SuccessMessage";
 
 export default function FlashcardsPage() {
+  const [successMessage, setSuccessMessage] = useState("");
+
   const {
     data: flashcards,
     isLoading,
     error,
     mutate,
-  } = useSWR("/api/flashcards", fetcher);
+  } = useSWR("/api/flashcards");
 
   async function handleMarkCorrect(flashcardId, isCorrect) {
     try {
@@ -39,6 +41,7 @@ export default function FlashcardsPage() {
 
       if (response.ok) {
         mutate();
+        setSuccessMessage("Flashcard successfully deleted!");
       } else {
         alert("Error deleting flashcard");
       }
@@ -47,14 +50,43 @@ export default function FlashcardsPage() {
     }
   }
 
+  async function handleAddFlashcard(flashcardData) {
+    try {
+      const response = await fetch("/api/flashcards", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(flashcardData),
+      });
+
+      if (response.ok) {
+        mutate();
+        setSuccessMessage("Flashcard successfully created!");
+      } else {
+        alert("Error creating flashcard");
+      }
+    } catch (error) {
+      alert("Error creating flashcard");
+    }
+  }
+
   return (
-    <AllFlashcardsPage 
-      flashcards={flashcards}
-      isLoading={isLoading}
-      error={error}
-      onDeleteFlashcard={handleDeleteFlashcard}
-      onMarkCorrect={handleMarkCorrect}
-      onUpdate={mutate}
-    />
+    <>
+      <SuccessMessage
+        message={successMessage}
+        show={!!successMessage}
+        onClose={() => setSuccessMessage("")}
+      />
+      <AllFlashcardsPage
+        flashcards={flashcards}
+        isLoading={isLoading}
+        error={error}
+        onDeleteFlashcard={handleDeleteFlashcard}
+        onMarkCorrect={handleMarkCorrect}
+        onUpdate={mutate}
+        onAddFlashcard={handleAddFlashcard}
+      />
+    </>
   );
 }

@@ -5,7 +5,6 @@ import {
   CollectionPageWrapper,
   CollectionsList,
   HeaderSection,
-  AddElementWrapper,
 } from "./StyledCollection";
 import CollectionForm from "./CollectionForm/CollectionForm";
 import { Text } from "../StylingGeneral/StylingGeneral";
@@ -30,15 +29,23 @@ export default function CollectionList({
   function handleCancel() {
     setIsEditing(false);
   }
-
+if (!collections || collections.length === 0) {
+    return (
+      <Text>
+        <p>All Flashcards</p>
+        <p>No Collections found.</p>
+      </Text>
+    );
+  } 
   if (isEditing) {
     return (
       <CollectionPageWrapper>
         <CollectionForm
           onSubmit={handleSubmit}
           buttonText="Create Collection"
+          onCancel={handleCancel}
         />
-        <button onClick={handleCancel}>Cancel</button>
+      
       </CollectionPageWrapper>
     );
   }

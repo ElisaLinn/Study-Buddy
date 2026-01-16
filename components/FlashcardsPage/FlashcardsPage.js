@@ -1,5 +1,11 @@
+import { useState } from "react";
+import { AddButton } from "../AddElement.js/StyledAddElement";
 import FlippableFlashcard from "../DetailsPage/FlipFunction/FlippableFlashcard";
 import { Text } from "../StylingGeneral/StylingGeneral";
+import FlashcardForm from "../FlashcardForrms/FlashcardForm";
+import { Plus } from "lucide-react";
+import LoadingMessage from "../Messages/LoadingMessage";
+import useSWR from "swr";
 
 export default function AllFlashcardsPage({
   flashcards,
@@ -8,9 +14,29 @@ export default function AllFlashcardsPage({
   onDeleteFlashcard,
   onMarkCorrect,
   onUpdate,
+  onAddFlashcard,
 }) {
+  const [isEditing, setIsEditing] = useState(false);
+
+  const { data: collections = [] } = useSWR("/api/collections");
+
+  function handleEditing() {
+    setIsEditing(true);
+  }
+
+  function handleSubmit(newFlashcardData) {
+    if (onAddFlashcard) {
+      onAddFlashcard(newFlashcardData);
+      setIsEditing(false);
+    }
+  }
+
+  function handleCancel() {
+    setIsEditing(false);
+  }
+
   if (isLoading) {
-    return <h1>Loading flashcards...</h1>;
+    return <LoadingMessage message="Loading flashcards..." show={true} />;
   }
 
   if (error) {
@@ -22,6 +48,19 @@ export default function AllFlashcardsPage({
       <div>
         <h1>All Flashcards</h1>
         <p>No Flashcard found.</p>
+      </div>
+    );
+  }
+
+  if (isEditing) {
+    return (
+      <div>
+        <FlashcardForm
+          onSubmit={handleSubmit}
+          buttonText="Create Flashcard"
+          showCollectionSelect={true}
+          onCancel={handleCancel}
+        />
       </div>
     );
   }
@@ -42,6 +81,9 @@ export default function AllFlashcardsPage({
   return (
     <div>
       <Text>{activeFlashcards.length} Flashcards are left</Text>
+      <AddButton onClick={handleEditing}>
+        <Plus />
+      </AddButton>
       <div>
         {activeFlashcards.map((flashcard) => (
           <FlippableFlashcard
@@ -50,6 +92,8 @@ export default function AllFlashcardsPage({
             onDelete={onDeleteFlashcard}
             onMarkCorrect={onMarkCorrect}
             onUpdate={onUpdate}
+            showCorrectAnimation={true}
+            collections={collections}
           />
         ))}
       </div>

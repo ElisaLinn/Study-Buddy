@@ -1,12 +1,12 @@
 import { useState } from "react";
 import AddElement from "../AddElement.js/AddElement";
 import BackButton from "./BackButton/BackButton";
-import FlashcardForm from "./FlashcardForm";
+import FlashcardForm from "../FlashcardForrms/FlashcardForm";
 import FlippableFlashcard from "./FlipFunction/FlippableFlashcard";
-import { DetailsPageWrapper} from "./StyledDetailsPage";
+import { DetailsPageWrapper } from "./StyledDetailsPage";
 import { Subtitle, Text } from "../StylingGeneral/StylingGeneral";
-import { Trash2 } from "lucide-react";
-import DeleteButton from "../DeleteButton/DeleteButton";
+
+import useSWR from "swr";
 
 export default function CollectionDetails({
   collection,
@@ -17,8 +17,8 @@ export default function CollectionDetails({
   onUpdate,
 }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [editingFlashcard, setEditingFlashcard] = useState(null);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  const { data: collections = [] } = useSWR("/api/collections");
 
   if (!collection) {
     return <p>No collection data available</p>;
@@ -38,39 +38,16 @@ export default function CollectionDetails({
     setIsEditing(false);
   }
 
-  function handleEditFlashcard(flashcard) {
-    setEditingFlashcard(flashcard);
-    setIsEditModalOpen(true);
-  }
-
-  async function handleUpdateFlashcard(id, updatedData) {
-    try {
-      const response = await fetch(`/api/flashcards/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to update flashcard");
-      }
-
-      if (onUpdate) {
-        onUpdate();
-      }
-    } catch (error) {
-      console.error("Error updating flashcard:", error);
-      throw error;
-    }
-  }
-
   if (isEditing) {
     return (
       <div>
-        <FlashcardForm onSubmit={handleSubmit} buttonText="Create Collection" />
-        <button onClick={handleCancel}>Cancel</button>
+        <FlashcardForm 
+          onSubmit={handleSubmit} 
+          onCancel={handleCancel}
+          defaultCollectionId={collection._id}
+          collection={collection}
+        />
+        
       </div>
     );
   }
@@ -78,7 +55,7 @@ export default function CollectionDetails({
   return (
     <DetailsPageWrapper>
       <BackButton />
-           <AddElement onClick={handleEditing} />
+      <AddElement onClick={handleEditing} />
       <Subtitle>{collection.title}</Subtitle>
       {collection.flashcards && collection.flashcards.length > 0 && (
         <div>
@@ -90,14 +67,12 @@ export default function CollectionDetails({
               onDelete={onDeleteFlashcard}
               onMarkCorrect={onMarkCorrect}
               onUpdate={onUpdate}
+              collections={collections}
             />
           ))}
         </div>
       )}
 
-      <DeleteButton onDelete={onDelete} id={collection?._id}><Trash2/></DeleteButton>
-      
-      
     </DetailsPageWrapper>
   );
 }

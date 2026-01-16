@@ -1,8 +1,10 @@
 import { BackLink } from "@/components/StylingGeneral/StylingGeneral";
 import FlippableFlashcard from "../DetailsPage/FlipFunction/FlippableFlashcard";
 import { BrushCleaning, LucideArrowBigLeft } from "lucide-react";
-import { ResetAllButton } from "./StyledArchive";
+import { ResetAllButton, CardWrapper, AnimationWrapper, ResetAllButtonWrapper } from "./StyledArchive";
 import { Text } from "../StylingGeneral/StylingGeneral";
+import { useState } from "react";
+import useSWR from "swr";
 
 export default function ArchivePage({
   archivedFlashcards,
@@ -12,6 +14,17 @@ export default function ArchivePage({
   onUpdate,
   onResetAll,
 }) {
+  const [isResetting, setIsResetting] = useState(false);
+
+  const { data: collections = [] } = useSWR("/api/collections");
+
+  const handleResetAll = () => {
+    setIsResetting(true);
+    setTimeout(() => {
+      onResetAll();
+      setIsResetting(false);
+    }, 700);
+  };
   return (
     <div>
       {currentCollection ? (
@@ -26,9 +39,12 @@ export default function ArchivePage({
         <>
           <Text>You marked {archivedFlashcards.length} Flashcards as correct</Text>
           {archivedFlashcards.length > 0 && (
-            <ResetAllButton onClick={onResetAll}><BrushCleaning/>
-              Remove All Back to Flashcards
-            </ResetAllButton>
+            <ResetAllButtonWrapper>
+              <ResetAllButton onClick={handleResetAll} disabled={isResetting}>
+                <BrushCleaning/>
+                {isResetting ? 'Removing...' : 'Remove All Back to Flashcards'}
+              </ResetAllButton>
+            </ResetAllButtonWrapper>
           )}
         </>
       )}
@@ -39,17 +55,23 @@ export default function ArchivePage({
             : "No flashcards here yet. Mark Flashcards as correct to see them here."}
         </Text>
       ) : (
-        <div>
+        <AnimationWrapper>
           {archivedFlashcards.map((flashcard) => (
-            <FlippableFlashcard
+            <CardWrapper 
               key={flashcard._id}
-              flashcard={flashcard}
-              onDelete={onDelete}
-              onMarkCorrect={onMarkCorrect}
-              onUpdate={onUpdate}
-            />
+              isResetting={isResetting}
+            >
+              <FlippableFlashcard
+                flashcard={flashcard}
+                onDelete={onDelete}
+                onMarkCorrect={onMarkCorrect}
+                onUpdate={onUpdate}
+                showRemoveButton={true}
+                collections={collections}
+              />
+            </CardWrapper>
           ))}
-        </div>
+        </AnimationWrapper>
       )}
     </div>
   );

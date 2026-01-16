@@ -1,5 +1,3 @@
-import Link from "next/link"
-
 import { ArrowBigLeft } from "lucide-react";
 import { BackLink } from "@/components/StylingGeneral/StylingGeneral";
 
