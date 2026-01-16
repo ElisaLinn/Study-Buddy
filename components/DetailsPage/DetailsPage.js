@@ -10,11 +10,11 @@ import useSWR from "swr";
 
 export default function CollectionDetails({
   collection,
-  onDelete,
   onAddFlashcard,
   onDeleteFlashcard,
   onMarkCorrect,
   onUpdate,
+ 
 }) {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -23,6 +23,7 @@ export default function CollectionDetails({
   if (!collection) {
     return <p>No collection data available</p>;
   }
+
   function handleEditing() {
     setIsEditing(true);
   }
@@ -57,7 +58,7 @@ export default function CollectionDetails({
       <BackButton />
       <AddElement onClick={handleEditing} />
       <Subtitle>{collection.title}</Subtitle>
-      {collection.flashcards && collection.flashcards.length > 0 && (
+      {collection.flashcards && collection.flashcards.length > 0 ? (
         <div>
           <Text>{collection.flashcards.length} created Flashcards</Text>
           {collection.flashcards.map((flashcard) => (
@@ -71,6 +72,10 @@ export default function CollectionDetails({
             />
           ))}
         </div>
+      ) : (
+        <Text>
+          No flashcards here yet. Please create more!
+        </Text>
       )}
 
     </DetailsPageWrapper>

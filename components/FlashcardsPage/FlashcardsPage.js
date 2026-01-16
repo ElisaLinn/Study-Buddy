@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AddButton } from "../AddElement.js/StyledAddElement";
 import FlippableFlashcard from "../DetailsPage/FlipFunction/FlippableFlashcard";
-import { Text } from "../StylingGeneral/StylingGeneral";
+import { PageWrapper, Text } from "../StylingGeneral/StylingGeneral";
 import FlashcardForm from "../FlashcardForrms/FlashcardForm";
 import { Plus } from "lucide-react";
 import LoadingMessage from "../Messages/LoadingMessage";
@@ -45,10 +45,10 @@ export default function AllFlashcardsPage({
 
   if (!flashcards || flashcards.length === 0) {
     return (
-      <div>
-        <h1>All Flashcards</h1>
+      <PageWrapper>
+        <Text>All Flashcards</Text>
         <p>No Flashcard found.</p>
-      </div>
+      </PageWrapper>
     );
   }
 
@@ -71,10 +71,10 @@ export default function AllFlashcardsPage({
 
   if (activeFlashcards.length === 0) {
     return (
-      <div>
-        <h1>All Flashcards</h1>
-        <p>All Flashcard are achivaded! Look at archive.</p>
-      </div>
+      <Text>
+        <h1>Congratulations</h1>
+        <p>All Flashcard are correct! Look at archive.</p>
+      </Text>
     );
   }
 
