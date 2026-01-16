@@ -28,6 +28,7 @@ export default function FlashcardForm({
   defaultCollectionId = "",
   showCollectionSelect = false,
   onCancel,
+  collection = null,
 }) {
   const [submitError, setSubmitError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -63,7 +64,9 @@ export default function FlashcardForm({
     const cleanedData = {
       question: flashcardData.question,
       answer: flashcardData.answer,
-      ...(showCollectionSelect ? { collectionId: selectedCollectionId } : {}),
+      collectionId: showCollectionSelect
+        ? selectedCollectionId
+        : defaultCollectionId,
     };
 
     try {
@@ -118,26 +121,25 @@ export default function FlashcardForm({
             </FlashcardSide>
             <TagWrapper>
               <CollectionTag>
-                {" "}
-                {showCollectionSelect && (
-                  <>
-                    <SelectCategory
-                      id="collection"
-                      value={selectedCollectionId}
-                      onChange={(event) =>
-                        setSelectedCollectionId(event.target.value)
-                      }
-                      required
-                    >
-                      <option value="">Choose a collection...</option>
-                      {collections?.map((collection) => (
-                        <option key={collection._id} value={collection._id}>
-                          {collection.title}
-                        </option>
-                      ))}
-                    </SelectCategory>
-                  </>
-                )}
+                {showCollectionSelect ? (
+                  <SelectCategory
+                    id="collection"
+                    value={selectedCollectionId}
+                    onChange={(event) =>
+                      setSelectedCollectionId(event.target.value)
+                    }
+                    required
+                  >
+                    <option value="">Choose a collection...</option>
+                    {collections?.map((collection) => (
+                      <option key={collection._id} value={collection._id}>
+                        {collection.title}
+                      </option>
+                    ))}
+                  </SelectCategory>
+                ) : collection ? (
+                  collection.title
+                ) : null}
               </CollectionTag>
             </TagWrapper>
           </FlipContainer>
@@ -161,25 +163,25 @@ export default function FlashcardForm({
             </FlashcardSide>
             <TagWrapper>
               <CollectionTag>
-                {showCollectionSelect && (
-                  <>
-                    <SelectCategory
-                      id="collection"
-                      value={selectedCollectionId}
-                      onChange={(event) =>
-                        setSelectedCollectionId(event.target.value)
-                      }
-                      required
-                    >
-                      <option value="">Choose a collection...</option>
-                      {collections?.map((collection) => (
-                        <option key={collection._id} value={collection._id}>
-                          {collection.title}
-                        </option>
-                      ))}
-                    </SelectCategory>
-                  </>
-                )}
+                {showCollectionSelect ? (
+                  <SelectCategory
+                    id="collection"
+                    value={selectedCollectionId}
+                    onChange={(event) =>
+                      setSelectedCollectionId(event.target.value)
+                    }
+                    required
+                  >
+                    <option value="">Choose a collection...</option>
+                    {collections?.map((collection) => (
+                      <option key={collection._id} value={collection._id}>
+                        {collection.title}
+                      </option>
+                    ))}
+                  </SelectCategory>
+                ) : collection ? (
+                  collection.title
+                ) : null}
               </CollectionTag>
             </TagWrapper>
           </FlipContainer>

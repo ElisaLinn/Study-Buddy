@@ -10,7 +10,8 @@ import {
   SaveButton,
   ModalFooter,
   ButtonGroup,
-  CancelButton
+  CancelButton,
+  ModalWrapper,
 } from "@/components/Edit/EditCollectionModal/StyledEditCollectionModal";
 
 
@@ -59,7 +60,7 @@ export default function CollectionForm({ onSubmit, onCancel, buttonText = "Submi
           {successMessage}
         </SuccessMessage>
       )}
-      
+      <ModalWrapper>
       <ModalContent>
         <ModalHeader>
           <h2>Create New Collection</h2>
@@ -84,6 +85,7 @@ export default function CollectionForm({ onSubmit, onCancel, buttonText = "Submi
           </ModalFooter>
         </Form>
       </ModalContent>
+      </ModalWrapper>
     </>
   );
 }

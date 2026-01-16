@@ -41,7 +41,12 @@ export default function CollectionDetails({
   if (isEditing) {
     return (
       <div>
-        <FlashcardForm onSubmit={handleSubmit} onCancel={handleCancel} />
+        <FlashcardForm 
+          onSubmit={handleSubmit} 
+          onCancel={handleCancel}
+          defaultCollectionId={collection._id}
+          collection={collection}
+        />
         
       </div>
     );
