@@ -11,6 +11,7 @@ border: 3px solid var(--secondary);
 color: white;
 opacity: 1 !important;
 z-index: 1000;
+cursor: pointer;
 
 
 &:hover{
