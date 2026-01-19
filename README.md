@@ -185,7 +185,8 @@ Potential features to add:
 
 ## Thank you
 
- --This projekt is made by Elisa Linnemannstöns
+This projekt is made by Elisa Linnemannstöns
+
 ---
 
 **Built with using Next.js and React**
